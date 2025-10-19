@@ -264,7 +264,7 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
             <div class="col-md-12">
                 <h2>ছাত্রদের পিকআপ স্ক্যান করুন</h2>
                 <p class="text-muted">নিচের ক্যামেরা ব্যবহার করে ছাত্রদের QR কোড স্ক্যান করুন</p>
-                <div id="reader" style="width:90%; margin:auto;"></div>
+                <div id="reader" style="width:90%; max-width: 500px; margin:auto;"></div>
                 <div id="result" class="mt-3"></div>
 
         </div>
@@ -272,8 +272,24 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
     <script>
         function onScanSuccess(decodedText, decodedResult) {
             // স্ক্যান সফল হলে এখানে কোড লিখুন
-            document.getElementById('result').innerHTML = `<div class="alert alert-success">স্ক্যান সফল: ${decodedText}</div>`;
+            // document.getElementById('result').innerHTML = `<div class="alert alert-success">স্ক্যান সফল: ${decodedText}</div>`;
             // আপনি এখানে AJAX কল করতে পারেন সার্ভারে ডেটা পাঠানোর জন্য
+            fetch('process_pickup.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ student_qr: decodedText })
+            }).then(response => response.json())
+              .then(data => {
+                  if(data.success) {
+                      document.getElementById('result').innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+                  } else {
+                      document.getElementById('result').innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+                  }
+              }).catch(error => {
+                  document.getElementById('result').innerHTML = `<div class="alert alert-danger">ত্রুটি: ${error.message}</div>`;
+              });
         }
 
         function onScanFailure(error) {
