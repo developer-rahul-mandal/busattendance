@@ -137,23 +137,33 @@ try {
                         <tbody>
                             <?php
                             foreach ($students as $student):
-                                // রুটের নাম আনুন
-                                try {
-                                    $stmt = $pdo->prepare("SELECT route_name FROM routes WHERE id = ?");
-                                    $stmt->execute([$student['route_id']]);
-                                    $route = $stmt->fetch(PDO::FETCH_ASSOC);
-                                    $routeName = $route ? $route['route_name'] : 'N/A';
-                                    $stmt = null; // স্টেটমেন্ট ক্লিয়ার করুন
-                                } catch (PDOException $e) {
-                                    $routeName = 'N/A';
-                                }
-                                try {
-                                    $stmt = $pdo->prepare("SELECT destination_name FROM route_sub_destinations WHERE id = ?");
-                                    $stmt->execute([$student['sub_route_id']]);
-                                    $subRoute = $stmt->fetch(PDO::FETCH_ASSOC);
-                                    $subRouteName = $subRoute ? $subRoute['destination_name'] : 'N/A';
-                                } catch (PDOException $th) {
-                                    $subRouteName = "N/A";
+                                $routeName = '';
+                                $allrouteresults = [];
+                                if ($student['route_id'] != 0) {
+                                    // রুটের নাম আনুন
+                                    try {
+                                        $stmt = $pdo->prepare("SELECT route_name FROM routes WHERE id = ?");
+                                        $stmt->execute([$student['route_id']]);
+                                        $route = $stmt->fetch(PDO::FETCH_ASSOC);
+                                        $routeName = $route ? $route['route_name'] : 'N/A';
+                                        $stmt = null;
+                                    } catch (PDOException $e) {
+                                        $routeName = 'N/A';
+                                    }
+                                } else {
+                                    // সাব-রুট ও পিকআপ লোকেশন অনুযায়ী তথ্য আনুন
+                                    $sql = "SELECT rsd.id, rsd.route_id, rsd.destination_name, r.route_name 
+                                            FROM route_sub_destinations rsd 
+                                            JOIN routes r ON rsd.route_id = r.id 
+                                            WHERE rsd.destination_name = :pickup_location";
+                                    try {
+                                        $stmt = $pdo->prepare($sql);
+                                        $stmt->execute([':pickup_location' => $student['pickup_location']]);
+                                        $allrouteresults = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                        $stmt = null;
+                                    } catch (PDOException $e) {
+                                        $routeName = 'N/A';
+                                    }
                                 }
                             ?>
                                 <tr>
@@ -166,8 +176,25 @@ try {
                                     </td>
                                     <td><?php echo htmlspecialchars($student['student_name']); ?></td>
                                     <td><?php echo htmlspecialchars($student['student_id']); ?></td>
-                                    <td><?php echo htmlspecialchars($routeName); ?></td>
-                                    <td><?php echo htmlspecialchars($subRouteName); ?></td>
+                                    <td>
+                                        <?php
+                                            if (!empty($routeName) && $student['route_id'] != 0) {
+                                                // রুটের নাম প্রদর্শন করুন
+                                                echo htmlspecialchars($routeName); 
+                                            } else {
+                                                echo '<select class="form-control" name="route" id="route" style="width: 150px;" onchange="addStudentRouteChange(this.value, '.$student['id'].')">';
+                                                echo '<option value="">নির্বাচন করুন</option>';
+                                                if (!empty($allrouteresults)) {
+                                                    foreach ($allrouteresults as $routeOption) {
+                                                        echo '<option value="' . htmlspecialchars($routeOption['route_id']) . '">' . htmlspecialchars($routeOption['route_name']) . '</option>';
+                                                    }
+                                                echo'</select>';
+                                                }
+                                                
+                                            }
+                                        ?>
+                                    </td>
+                                    <td><?php echo htmlspecialchars($student['pickup_location']); ?></td>
                                     <td><?php echo htmlspecialchars($student['phone']); ?></td>
                                     <td><?php echo htmlspecialchars($student['guardian_phone']); ?></td>
                                     <td><?php echo htmlspecialchars($student['father_name']); ?></td>
@@ -241,6 +268,13 @@ try {
                 .catch(error => {
                     alert('সমস্যা হয়েছে: ' + error);
                 });
+            }
+        }
+        
+        function addStudentRouteChange(id, stdentId) {
+            // এখানে আপনি রুট পরিবর্তনের জন্য প্রয়োজনীয় জাভাস্ক্রিপ্ট কোড যোগ করতে পারেন
+            confirm('আপনি কি এই শিক্ষার্থীর রুট পরিবর্তন করতে চান?'){
+                window.location.href = 'set_student_route.php?student_id=' + stdentId + '&route_id=' + id;
             }
         }
     </script>

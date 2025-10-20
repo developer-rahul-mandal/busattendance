@@ -11,8 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // ফর্ম ডেটা সংগ্রহ করুন
 $student_name = trim($_POST['student_name'] ?? '');
 $student_id = trim($_POST['student_id'] ?? '');
-$route_id = trim($_POST['route'] ?? '');
-$sub_route_id = trim($_POST['sub_route'] ?? '');
+$sub_route = trim($_POST['sub_route'] ?? '');
 $phone = trim($_POST['phone'] ?? '');
 $guardian_phone = trim($_POST['guardian_phone'] ?? '');
 $father_name = trim($_POST['father_name'] ?? '');
@@ -49,11 +48,8 @@ if (empty($student_id)) {
     $errors[] = "শিক্ষার্থী ID প্রয়োজন";
 }
 
-if (empty($route_id)) {
-    $errors[] = "রুট নির্বাচন করুন";
-}
 
-if (empty($sub_route_id)) {
+if (empty($sub_route)) {
     $errors[] = "সাব-রুট নির্বাচন করুন";
 }
 
@@ -91,6 +87,7 @@ try {
         img_path VARCHAR(255) DEFAULT NULL,
         route_id INT NOT NULL,
         sub_route_id INT NOT NULL,
+        pickup_location VARCHAR(255),
         phone VARCHAR(20) NOT NULL,
         guardian_phone VARCHAR(20),
         father_name VARCHAR(100),
@@ -130,8 +127,8 @@ try {
     
     // শিক্ষার্থী যোগ করুন
     $insert_student = "
-    INSERT INTO students (student_id, student_name, img_path, route_id, sub_route_id, phone, guardian_phone, father_name, mother_name, address, gender, status) 
-    VALUES (:student_id, :student_name, :img_path, :route_id, :sub_route_id, :phone, :guardian_phone, :father_name, :mother_name, :address, :gender, :status)
+    INSERT INTO students (student_id, student_name, img_path, pickup_location, phone, guardian_phone, father_name, mother_name, address, gender, status) 
+    VALUES (:student_id, :student_name, :img_path, :pickup_location, :phone, :guardian_phone, :father_name, :mother_name, :address, :gender, :status)
     ";
     
     $stmt = $pdo->prepare($insert_student);
@@ -139,8 +136,7 @@ try {
         ':student_id' => $student_id,
         ':student_name' => $student_name,
         ':img_path' => $file_name,
-        ':route_id' => $route_id,
-        ':sub_route_id' => $sub_route_id,
+        ':pickup_location' => $sub_route,
         ':phone' => $phone,
         ':guardian_phone' => $guardian_phone,
         ':father_name' => $father_name,

@@ -128,43 +128,29 @@ require_once 'config/database.php';
                             </div>
                         </div>
                         <div class="row">
-                            <div class="mb-3">
-                                <label for="image" class="form-label">ছবি যোগ করুন <span class="text-danger">*</span></label>
-                                <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="route" class="form-label">রুট <span class="text-danger">*</span></label>
-                                    <select class="form-control" id="route" name="route" required>
-                                        <option value="">নির্বাচন করুন</option>
-                                        <?php
-                                        // রুট ডেটা ফেচ করুন
-                                        try {
-                                            $stmt = $pdo->query("SELECT id, route_name, route_code FROM routes");
-                                            $routes = $stmt->fetchAll();
-                                            foreach ($routes as $route) {
-                                                echo '<option value="' . htmlspecialchars($route['id']) . '">' . htmlspecialchars($route['route_name']) .'('. htmlspecialchars($route['route_code']). ')</option>';
-                                            }
-                                        } catch (PDOException $e) {}
-                                        ?>
-                                    </select>
+                                    <label for="image" class="form-label">ছবি যোগ করুন <span class="text-danger">*</span></label>
+                                    <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="sub_route" class="form-label">ওঠার স্থান <span class="text-danger">*</span></label>
-                                    <select class="form-control" id="sub_route" name="sub_route" required disabled>
+                                    <select class="form-control" id="sub_route" name="sub_route" required>
                                         <option value="">নির্বাচন করুন</option>
-                                        <!-- সেকশন ডেটা জাভাস্ক্রিপ্ট দিয়ে লোড হবে -->
-
-
+                                        <?php
+                                        $stmt = $pdo->prepare("SELECT destination_name FROM route_sub_destinations ORDER BY destination_name ASC");
+                                        $stmt->execute();
+                                        $sub_routes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                        foreach ($sub_routes as $sub_route) {
+                                            echo '<option value="' . htmlspecialchars($sub_route['destination_name']) . '">' . htmlspecialchars($sub_route['destination_name']) . '</option>';
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -254,45 +240,5 @@ require_once 'config/database.php';
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.getElementById('route').addEventListener('change', function() {
-            const routeId = this.value;
-            const subRouteSelect = document.getElementById('sub_route');
-            subRouteSelect.innerHTML = '<option value="">লোড হচ্ছে...</option>';
-            subRouteSelect.disabled = true;
-
-            if (routeId) {
-                fetch('apis/fetch-sub-route.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams({ route_id: routeId })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success' && data.data.length > 0) {
-                        let options = '<option value="">নির্বাচন করুন</option>';
-                        data.data.forEach(subRoute => {
-                            options += `<option value="${subRoute.id}">${subRoute.destination_name}</option>`;
-                        });
-                        subRouteSelect.innerHTML = options;
-                        subRouteSelect.disabled = false;
-                    } else {
-                        subRouteSelect.innerHTML = '<option value="">কোনো সাব-রুট পাওয়া যায়নি</option>';
-                        subRouteSelect.disabled = true;
-                    }
-                })
-                .catch(error => {
-                    console.error('ত্রুটি:', error);
-                    subRouteSelect.innerHTML = '<option value="">লোড করতে সমস্যা হয়েছে</option>';
-                    subRouteSelect.disabled = true;
-                });
-            } else {
-                subRouteSelect.innerHTML = '<option value="">নির্বাচন করুন</option>';
-                subRouteSelect.disabled = true;
-            }
-        });
-    </script>
 </body>
 </html>

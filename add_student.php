@@ -183,6 +183,7 @@ if (!isset($_SESSION['super_admin_logged_in']) || $_SESSION['super_admin_logged_
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="sub_route_name" id="sub_route_name" value="">
 
                         <div class="row">
                             <div class="col-md-6">
@@ -315,6 +316,11 @@ if (!isset($_SESSION['super_admin_logged_in']) || $_SESSION['super_admin_logged_
                 subRouteSelect.innerHTML = '<option value="">নির্বাচন করুন</option>';
                 subRouteSelect.disabled = true;
             }
+        });
+        
+        document.getElementById('sub_route').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            document.getElementById('sub_route_name').value = selectedOption.text;
         });
     </script>
 </body>
