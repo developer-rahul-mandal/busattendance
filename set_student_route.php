@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once './config/database.php';
 // সেশন চেক করুন
 if (!isset($_SESSION['super_admin_logged_in']) || $_SESSION['super_admin_logged_in'] !== true) {
@@ -17,7 +18,7 @@ if ($student_id <= 0 || $route_id <= 0) {
 // ডাটাবেসে সংযোগ এবং আপডেট কার্যক্রম
 try {
     $stmt = "SELECT * FROM students WHERE id = :student_id LIMIT 1";
-    $stmt = $pdo->prepare($sql);
+    $stmt = $pdo->prepare($stmt);
     $stmt->execute(['student_id' => $student_id]);
     $student = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$student) {
@@ -25,7 +26,7 @@ try {
         exit();
     }
     $stmt = "SELECT * FROM route_sub_destinations WHERE route_id = :route_id AND destination_name = :destination_name LIMIT 1";
-    $stmt = $pdo->prepare($sql);
+    $stmt = $pdo->prepare($stmt);
     $stmt->execute(['route_id' => $route_id, 'destination_name' => $student['pickup_location']]);
     $sub_route = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$sub_route) {
@@ -36,6 +37,14 @@ try {
     }
 
     $update_sql = "UPDATE students SET route_id = :route_id, sub_route_id = :sub_route_id WHERE id = :student_id";
+    $stmt = $pdo->prepare($update_sql);
+    $stmt->execute([
+        ':route_id' => $route_id,
+        ':sub_route_id' => $sub_route_id,
+        ':student_id' => $student_id
+    ]);
+    $_SESSION['success_message'] = "শিক্ষার্থীর রুট সফলভাবে আপডেট হয়েছে!";
+    header('Location: student_list.php');
 
 } catch (PDOException $e) {
     die("ডাটাবেস সংযোগ ব্যর্থ: " . $e->getMessage());

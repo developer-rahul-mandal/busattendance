@@ -104,6 +104,20 @@ try {
                 </div>
             </div>
 
+            <?php if (isset($_SESSION['success_message'])): ?>
+                        <div class="alert alert-success" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <?php echo $_SESSION['success_message']; unset($_SESSION['success_message']); ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (isset($_SESSION['error_message'])): ?>
+                        <div class="alert alert-danger" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <?php echo $_SESSION['error_message']; unset($_SESSION['error_message']); ?>
+                        </div>
+                    <?php endif; ?>
+
             <?php if (empty($students)): ?>
                 <div class="text-center py-5">
                     <i class="fas fa-user-tie" style="font-size: 4rem; color: #ccc; margin-bottom: 20px;"></i>
@@ -270,10 +284,10 @@ try {
                 });
             }
         }
-        
+
         function addStudentRouteChange(id, stdentId) {
             // এখানে আপনি রুট পরিবর্তনের জন্য প্রয়োজনীয় জাভাস্ক্রিপ্ট কোড যোগ করতে পারেন
-            confirm('আপনি কি এই শিক্ষার্থীর রুট পরিবর্তন করতে চান?'){
+            if(confirm('আপনি কি এই শিক্ষার্থীর রুট পরিবর্তন করতে চান?')) {
                 window.location.href = 'set_student_route.php?student_id=' + stdentId + '&route_id=' + id;
             }
         }

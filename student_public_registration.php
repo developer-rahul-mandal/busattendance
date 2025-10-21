@@ -1,6 +1,40 @@
 <?php
 session_start();
 require_once 'config/database.php';
+
+// নতুন শিক্ষার্থী ID তৈরি করুন
+function generateStudentID($pdo) {
+    // Step 1: Find last inserted student_id
+    $query = "SELECT student_id FROM students WHERE student_id LIKE 'STD%' ORDER BY id DESC LIMIT 1";
+    $stmt = $pdo->query($query);
+    $last = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($last && isset($last['student_id'])) {
+        // Extract numeric part (e.g. from "STD007" => 7)
+        $num = (int) substr($last['student_id'], 3);
+        $newNum = $num + 1;
+    } else {
+        $newNum = 1; // First ID
+    }
+
+    // Step 2: Format new ID (e.g. 1 => STD001)
+    $newID = 'STD' . str_pad($newNum, 3, '0', STR_PAD_LEFT);
+
+    // Step 3: Check if ID already exists (just to be safe)
+    $checkStmt = $pdo->prepare("SELECT COUNT(*) FROM students WHERE student_id = ?");
+    $checkStmt->execute([$newID]);
+    $exists = $checkStmt->fetchColumn();
+
+    if ($exists > 0) {
+        // If already exists (rare case), recursively generate next
+        return generateStudentID($pdo);
+    }
+
+    return $newID;
+}
+
+$newStudentID = generateStudentID($pdo);
+
 ?>
 
 <!DOCTYPE html>
@@ -122,8 +156,8 @@ require_once 'config/database.php';
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="student_id" class="form-label">শিক্ষার্থী ID <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="student_id" name="student_id" required>
-                                    <div class="form-text">যেমন: ST-001, ST-002</div>
+                                    <input type="text" class="form-control" id="student_id" name="student_id" required readonly value="<?php echo htmlspecialchars($newStudentID); ?>">
+                                    
                                 </div>
                             </div>
                         </div>
@@ -137,17 +171,7 @@ require_once 'config/database.php';
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="sub_route" class="form-label">ওঠার স্থান <span class="text-danger">*</span></label>
-                                    <select class="form-control" id="sub_route" name="sub_route" required>
-                                        <option value="">নির্বাচন করুন</option>
-                                        <?php
-                                        $stmt = $pdo->prepare("SELECT destination_name FROM route_sub_destinations ORDER BY destination_name ASC");
-                                        $stmt->execute();
-                                        $sub_routes = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                                        foreach ($sub_routes as $sub_route) {
-                                            echo '<option value="' . htmlspecialchars($sub_route['destination_name']) . '">' . htmlspecialchars($sub_route['destination_name']) . '</option>';
-                                        }
-                                        ?>
-                                    </select>
+                                    <input type="text" class="form-control" id="sub_route" name="sub_route" required>
                                 </div>
                             </div>
                         </div>
