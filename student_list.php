@@ -134,16 +134,13 @@ try {
                         <thead>
                             <tr>
                                 <th>ছবি</th>
-                                <th>নাম</th>
-                                <th>শিক্ষার্থী ID</th>
+                                <th>শিক্ষার্থী</th>
+                                <th>স্কুল</th>
                                 <th>রুট</th>
                                 <th>ওঠার স্থান</th>
-                                <th>ফোন নম্বর</th>
-                                <th>অভিভাবকের ফোন</th>
-                                <th>পিতার নাম</th>
-                                <th>মাতার নাম</th>
+                                <th>পছন্দের স্থান</th>
+                                <th>অভিভাবক</th>
                                 <th>ঠিকানা</th>
-                                <th>লিঙ্গ</th>
                                 <th>অবস্থা</th>
                                 <th>কার্যক্রম</th>
                             </tr>
@@ -153,7 +150,9 @@ try {
                             foreach ($students as $student):
                                 $routeName = '';
                                 $allrouteresults = [];
-                                if ($student['route_id'] != 0) {
+                                $subRouteName = '';
+                                $allsubrouteresults = [];
+                                if ($student['route_id'] > 0) {
                                     // রুটের নাম আনুন
                                     try {
                                         $stmt = $pdo->prepare("SELECT route_name FROM routes WHERE id = ?");
@@ -166,17 +165,40 @@ try {
                                     }
                                 } else {
                                     // সাব-রুট ও পিকআপ লোকেশন অনুযায়ী তথ্য আনুন
-                                    $sql = "SELECT rsd.id, rsd.route_id, rsd.destination_name, r.route_name 
-                                            FROM route_sub_destinations rsd 
-                                            JOIN routes r ON rsd.route_id = r.id 
-                                            WHERE rsd.destination_name = :pickup_location";
+                                    $sql = "SELECT * 
+                                            FROM routes";
                                     try {
                                         $stmt = $pdo->prepare($sql);
-                                        $stmt->execute([':pickup_location' => $student['pickup_location']]);
+                                        $stmt->execute();
                                         $allrouteresults = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         $stmt = null;
                                     } catch (PDOException $e) {
                                         $routeName = 'N/A';
+                                    }
+                                }
+
+                                if ($student['sub_route_id'] > 0) {
+                                    // সাব-রুটের নাম আনুন
+                                    try {
+                                        $stmt = $pdo->prepare("SELECT destination_name FROM route_sub_destinations WHERE id = ?");
+                                        $stmt->execute([$student['sub_route_id']]);
+                                        $subRoute = $stmt->fetch(PDO::FETCH_ASSOC);
+                                        $subRouteName = $subRoute ? $subRoute['destination_name'] : 'N/A';
+                                        $stmt = null;
+                                    } catch (PDOException $e) {
+                                        $subRouteName = 'N/A';
+                                    }
+                                } else {
+                                    // সব সাব-রুট আনুন
+                                    $sql = "SELECT * 
+                                            FROM route_sub_destinations where route_id = ".(int)$student['route_id'];
+                                    try {
+                                        $stmt = $pdo->prepare($sql);
+                                        $stmt->execute();
+                                        $allsubrouteresults = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                                        $stmt = null;
+                                    } catch (PDOException $e) {
+                                        $subRouteName = 'N/A';
                                     }
                                 }
                             ?>
@@ -188,19 +210,32 @@ try {
                                             <img src="https://via.placeholder.com/50?text=No+Image" alt="No Image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
                                         <?php endif; ?>
                                     </td>
-                                    <td><?php echo htmlspecialchars($student['student_name']); ?></td>
-                                    <td><?php echo htmlspecialchars($student['student_id']); ?></td>
+                                    <td style="white-space: nowrap;"><?php echo htmlspecialchars($student['student_name']); ?>
+                                    <?php
+                                        if ($student['gender'] === 'male') {
+                                            echo '<span class="text-info ms-2"><i class="fa-solid fa-mars"></i></span>';
+                                        } elseif ($student['gender'] === 'female') {
+                                            echo '<span class="text-warning ms-2"><i class="fa-solid fa-venus"></i></span>';
+                                        } else {
+                                            echo '<span class="text-secondary ms-2"><i class="fa-solid fa-genderless"></i></span>';
+                                        }
+                                        ?>
+                                     <br><small style="white-space: nowrap; font-size:small"><i class="fa-solid fa-phone me-2"></i><?php echo htmlspecialchars($student['phone']); ?></small></td>
+                                    <td>
+                                        <?= htmlspecialchars($student['school_name']); ?> <br>
+                                        <span style="font-size: small;">Id: <?= htmlspecialchars($student['student_id']); ?></span>
+                                    </td>
                                     <td>
                                         <?php
                                             if (!empty($routeName) && $student['route_id'] != 0) {
                                                 // রুটের নাম প্রদর্শন করুন
                                                 echo htmlspecialchars($routeName); 
                                             } else {
-                                                echo '<select class="form-control" name="route" id="route" style="width: 150px;" onchange="addStudentRouteChange(this.value, '.$student['id'].')">';
+                                                echo '<select class="form-control" name="route" id="route" style="width: 120px;" onchange="addStudentRouteChange(this.value, '.$student['id'].')">';
                                                 echo '<option value="">নির্বাচন করুন</option>';
                                                 if (!empty($allrouteresults)) {
                                                     foreach ($allrouteresults as $routeOption) {
-                                                        echo '<option value="' . htmlspecialchars($routeOption['route_id']) . '">' . htmlspecialchars($routeOption['route_name']) . '</option>';
+                                                        echo '<option value="' . htmlspecialchars($routeOption['id']) . '">' . htmlspecialchars($routeOption['route_name']) . '</option>';
                                                     }
                                                 echo'</select>';
                                                 }
@@ -208,23 +243,35 @@ try {
                                             }
                                         ?>
                                     </td>
-                                    <td><?php echo htmlspecialchars($student['pickup_location']); ?></td>
-                                    <td><?php echo htmlspecialchars($student['phone']); ?></td>
-                                    <td><?php echo htmlspecialchars($student['guardian_phone']); ?></td>
-                                    <td><?php echo htmlspecialchars($student['father_name']); ?></td>
-                                    <td><?php echo htmlspecialchars($student['mother_name']); ?></td>
-                                    <td><?php echo htmlspecialchars($student['address']); ?></td>
                                     <td>
                                         <?php
-                                        if ($student['gender'] === 'male') {
-                                            echo '<span class="badge bg-info">পুরুষ</span>';
-                                        } elseif ($student['gender'] === 'female') {
-                                            echo '<span class="badge bg-warning text-dark">মহিলা</span>';
-                                        } else {
-                                            echo '<span class="badge bg-secondary">অন্যান্য</span>';
-                                        }
+                                            if (!empty($subRouteName) && $student['sub_route_id'] != 0) {
+                                                // সাব-রুটের নাম প্রদর্শন করুন
+                                                echo htmlspecialchars($subRouteName); 
+                                            } else {
+                                                if ($routeName == '') {
+                                                    echo '<select class="form-control" name="sub_route" id="sub_route" style="width: 150px;" disabled>';
+                                                } else {
+                                                echo '<select class="form-control" name="sub_route" id="sub_route" style="width: 150px;" onchange="addStudentSubRouteChange(this.value, '.$student['id'].')">';
+                                                }
+                                                echo '<option value="">নির্বাচন করুন</option>';
+                                                if (!empty($allsubrouteresults)) {
+                                                    foreach ($allsubrouteresults as $subRouteOption) {
+                                                        echo '<option value="' . htmlspecialchars($subRouteOption['id']) . '">' . htmlspecialchars($subRouteOption['destination_name']) . '</option>';
+                                                    }
+                                                echo'</select>';
+                                                }
+                                            }
+                                                
                                         ?>
                                     </td>
+                                    <td><?php echo htmlspecialchars($student['pickup_location']); ?></td>
+                                    <td style="white-space: nowrap;">
+                                        <span style="font-size: 15px;"><i class="fa-solid fa-mars me-2 text-info"></i><?php echo htmlspecialchars($student['father_name']); ?></span><br>
+                                        <span style="font-size: 15px;"><i class="fa-solid fa-venus me-2 text-warning"></i><?php echo htmlspecialchars($student['mother_name']); ?></span></br>
+                                        <span style="font-size: small;"><i class="fa-solid fa-phone me-2 text-primary "></i><?php echo htmlspecialchars($student['guardian_phone']); ?></span>
+                                    </td>
+                                    <td><?php echo htmlspecialchars($student['address']); ?></td>
                                     <td>
                                         <?php
                                         if ($student['status'] === 'active') {
@@ -289,6 +336,12 @@ try {
             // এখানে আপনি রুট পরিবর্তনের জন্য প্রয়োজনীয় জাভাস্ক্রিপ্ট কোড যোগ করতে পারেন
             if(confirm('আপনি কি এই শিক্ষার্থীর রুট পরিবর্তন করতে চান?')) {
                 window.location.href = 'set_student_route.php?student_id=' + stdentId + '&route_id=' + id;
+            }
+        }
+        function addStudentSubRouteChange(id, stdentId) {
+            // এখানে আপনি সাব-রুট পরিবর্তনের জন্য প্রয়োজনীয় জাভাস্ক্রিপ্ট কোড যোগ করতে পারেন
+            if(confirm('আপনি কি এই শিক্ষার্থীর সাব-রুট পরিবর্তন করতে চান?')) {
+                window.location.href = 'set_student_sub_route.php?student_id=' + stdentId + '&sub_route_id=' + id;
             }
         }
     </script>

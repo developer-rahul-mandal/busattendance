@@ -11,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // ফর্ম ডেটা সংগ্রহ করুন
 $student_name = trim($_POST['student_name'] ?? '');
 $student_id = trim($_POST['student_id'] ?? '');
+$school_name = trim($_POST['school_name'] ?? '');
 $sub_route = trim($_POST['sub_route'] ?? '');
 $phone = trim($_POST['phone'] ?? '');
 $guardian_phone = trim($_POST['guardian_phone'] ?? '');
@@ -85,6 +86,7 @@ try {
         student_id VARCHAR(50) UNIQUE NOT NULL,
         student_name VARCHAR(100) NOT NULL,
         img_path VARCHAR(255) DEFAULT NULL,
+        school_name VARCHAR(255) DEFAULT NULL,
         route_id INT NOT NULL,
         sub_route_id INT NOT NULL,
         pickup_location VARCHAR(255),
@@ -127,8 +129,8 @@ try {
     
     // শিক্ষার্থী যোগ করুন
     $insert_student = "
-    INSERT INTO students (student_id, student_name, img_path, pickup_location, phone, guardian_phone, father_name, mother_name, address, gender, status) 
-    VALUES (:student_id, :student_name, :img_path, :pickup_location, :phone, :guardian_phone, :father_name, :mother_name, :address, :gender, :status)
+    INSERT INTO students (student_id, student_name, img_path, school_name, pickup_location, phone, guardian_phone, father_name, mother_name, address, gender, status) 
+    VALUES (:student_id, :student_name, :img_path, :school_name, :pickup_location, :phone, :guardian_phone, :father_name, :mother_name, :address, :gender, :status)
     ";
     
     $stmt = $pdo->prepare($insert_student);
@@ -136,6 +138,7 @@ try {
         ':student_id' => $student_id,
         ':student_name' => $student_name,
         ':img_path' => $file_name,
+        ':school_name' => $school_name,
         ':pickup_location' => $sub_route,
         ':phone' => $phone,
         ':guardian_phone' => $guardian_phone,

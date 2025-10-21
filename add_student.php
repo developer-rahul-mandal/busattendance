@@ -179,6 +179,14 @@ $newStudentID = generateStudentID($pdo);
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="school_name" class="form-label">স্কুলের নাম</label>
+                                    <input type="text" class="form-control" id="school_name" name="school_name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="mb-3">
                                 <label for="image" class="form-label">ছবি যোগ করুন <span class="text-danger">*</span></label>
                                 <input type="file" class="form-control" id="image" name="image" accept="image/*" required>

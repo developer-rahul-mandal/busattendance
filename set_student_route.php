@@ -12,35 +12,46 @@ $route_id = isset($_GET['route_id']) ? (int)$_GET['route_id'] : 0;
 
 // যদি শিক্ষার্থী এবং রুট আইডি বৈধ হয় তবে ডাটাবেসে আপডেট করুন
 if ($student_id <= 0 || $route_id <= 0) {
+    $_SESSION['error_message'] = "অবৈধ শিক্ষার্থী বা রুট নির্বাচন!";
     header('Location: student_list.php');
     exit();
 }
 // ডাটাবেসে সংযোগ এবং আপডেট কার্যক্রম
 try {
+    // শিক্ষার্থী তথ্য আনুন
     $stmt = "SELECT * FROM students WHERE id = :student_id LIMIT 1";
     $stmt = $pdo->prepare($stmt);
     $stmt->execute(['student_id' => $student_id]);
     $student = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$student) {
+        $_SESSION['error_message'] = "অবৈধ শিক্ষার্থী নির্বাচন!";
         header('Location: student_list.php');
         exit();
-    }
-    $stmt = "SELECT * FROM route_sub_destinations WHERE route_id = :route_id AND destination_name = :destination_name LIMIT 1";
-    $stmt = $pdo->prepare($stmt);
-    $stmt->execute(['route_id' => $route_id, 'destination_name' => $student['pickup_location']]);
-    $sub_route = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$sub_route) {
-        header('Location: student_list.php');
-        exit();
-    } else {
-        $sub_route_id = $sub_route['id'];
     }
 
-    $update_sql = "UPDATE students SET route_id = :route_id, sub_route_id = :sub_route_id WHERE id = :student_id";
+    // রুট তথ্য আনুন
+    $stmt = "SELECT * FROM routes WHERE id = :route_id LIMIT 1";
+    $stmt = $pdo->prepare($stmt);
+    $stmt->execute(['route_id' => $route_id]);
+    $route = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$route) {
+        $_SESSION['error_message'] = "অবৈধ রুট নির্বাচন!";
+        header('Location: student_list.php');
+        exit();
+    }
+
+    // শিক্ষার্থীর রুট চেক করুন
+    if ($student['route_id'] != 0) {
+        $_SESSION['error_message'] = "শিক্ষার্থীর রুট ইতিমধ্যে সেট করা হয়েছে!";
+        header('Location: student_list.php');
+        exit();
+    }
+
+    // শিক্ষার্থীর রুট আপডেট করুন    
+    $update_sql = "UPDATE students SET route_id = :route_id WHERE id = :student_id";
     $stmt = $pdo->prepare($update_sql);
     $stmt->execute([
         ':route_id' => $route_id,
-        ':sub_route_id' => $sub_route_id,
         ':student_id' => $student_id
     ]);
     $_SESSION['success_message'] = "শিক্ষার্থীর রুট সফলভাবে আপডেট হয়েছে!";

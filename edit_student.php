@@ -20,7 +20,7 @@ try {
     $stmt = $pdo->prepare("SELECT * FROM students WHERE id = :id");
     $stmt->execute([':id' => $student_id]);
     $student = $stmt->fetch();
-    
+
     if (!$student) {
         $_SESSION['error_message'] = "শিক্ষার্থী পাওয়া যায়নি";
         header('Location: student_list.php');
@@ -35,10 +35,11 @@ try {
 
 <!DOCTYPE html>
 <html lang="bn">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ড্রাইভার সম্পাদনা - বাস উপস্থিতি ব্যবস্থাপনা</title>
+    <title>শিক্ষার্থীর সম্পাদনা - বাস উপস্থিতি ব্যবস্থাপনা</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -46,31 +47,37 @@ try {
             background-color: #f8f9fa;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .navbar {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
         .form-container {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             padding: 30px;
             margin-top: 30px;
         }
+
         .form-header {
             text-align: center;
             margin-bottom: 30px;
             padding-bottom: 20px;
             border-bottom: 3px solid #667eea;
         }
+
         .form-header h3 {
             color: #333;
             margin-bottom: 10px;
         }
+
         .form-header p {
             color: #666;
             margin: 0;
         }
+
         .form-control {
             border: 2px solid #e1e5e9;
             border-radius: 10px;
@@ -78,10 +85,12 @@ try {
             font-size: 16px;
             transition: all 0.3s ease;
         }
+
         .form-control:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
         }
+
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
@@ -91,14 +100,17 @@ try {
             font-weight: 600;
             transition: all 0.3s ease;
         }
+
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
+
         .alert {
             border-radius: 10px;
             border: none;
         }
+
         .driver-icon {
             font-size: 3rem;
             color: #667eea;
@@ -106,6 +118,7 @@ try {
         }
     </style>
 </head>
+
 <body>
     <!-- নেভিগেশন বার -->
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -143,14 +156,16 @@ try {
                     <?php if (isset($_SESSION['success_message'])): ?>
                         <div class="alert alert-success" role="alert">
                             <i class="fas fa-check-circle me-2"></i>
-                            <?php echo $_SESSION['success_message']; unset($_SESSION['success_message']); ?>
+                            <?php echo $_SESSION['success_message'];
+                            unset($_SESSION['success_message']); ?>
                         </div>
                     <?php endif; ?>
 
                     <?php if (isset($_SESSION['error_message'])): ?>
                         <div class="alert alert-danger" role="alert">
                             <i class="fas fa-exclamation-triangle me-2"></i>
-                            <?php echo $_SESSION['error_message']; unset($_SESSION['error_message']); ?>
+                            <?php echo $_SESSION['error_message'];
+                            unset($_SESSION['error_message']); ?>
                         </div>
                     <?php endif; ?>
 
@@ -167,7 +182,27 @@ try {
                                 <div class="mb-3">
                                     <label for="student_id" class="form-label">শিক্ষার্থী ID <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="student_id" name="student_id" value="<?php echo htmlspecialchars($student['student_id']); ?>" readonly required>
-                                    <div class="form-text">যেমন: ST-001, ST-002</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">ছবি আপডেট করুন</label>
+                                    <input type="file" class="form-control" id="image" name="image" accept="image/*">
+                                    <?php if (!empty($student['img_path'])): ?>
+                                        <small class="form-text text-muted">বর্তমান ছবি:
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#imageModal" class="btn btn-outline-warning btn-sm ms-2 mt-2">
+                                                VIEW
+                                            </a>
+                                        </small>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="school_name" class="form-label">স্কুলের নাম</label>
+                                    <input type="text" class="form-control" id="school_name" name="school_name" value="<?php echo htmlspecialchars($student['school_name']); ?>">
                                 </div>
                             </div>
                         </div>
@@ -184,9 +219,14 @@ try {
                                             $stmt = $pdo->query("SELECT id, route_name, route_code FROM routes");
                                             $routes = $stmt->fetchAll();
                                             foreach ($routes as $route) {
-                                                echo '<option value="' . htmlspecialchars($route['id']) . '">' . htmlspecialchars($route['route_name']) .'('. htmlspecialchars($route['route_code']). ')</option>';
+                                                if ($route['id'] == $student['route_id']) {
+                                                    echo '<option value="' . htmlspecialchars($route['id']) . '" selected>' . htmlspecialchars($route['route_name']) . '(' . htmlspecialchars($route['route_code']) . ')</option>';
+                                                    continue;
+                                                }
+                                                echo '<option value="' . htmlspecialchars($route['id']) . '">' . htmlspecialchars($route['route_name']) . '(' . htmlspecialchars($route['route_code']) . ')</option>';
                                             }
-                                        } catch (PDOException $e) {}
+                                        } catch (PDOException $e) {
+                                        }
                                         ?>
                                     </select>
                                 </div>
@@ -295,47 +335,76 @@ try {
             </div>
         </div>
     </div>
+    <!--model -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="imageModalLabel">বর্তমান ছবি</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="./uploads/<?= htmlspecialchars($student['img_path']); ?>" alt="Current Image" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('route').addEventListener('change', function() {
+        addEventListener('DOMContentLoaded', () => {
+            // পেজ লোড হলে সাব-রুট লোড করুন
+            document.getElementById('route').dispatchEvent(new Event('change'));
+        });
+
+        function handleInputChange() {
             const routeId = this.value;
+            const studentSubRouteId = <?php echo (int)$student['sub_route_id']; ?>;
             const subRouteSelect = document.getElementById('sub_route');
             subRouteSelect.innerHTML = '<option value="">লোড হচ্ছে...</option>';
             subRouteSelect.disabled = true;
 
             if (routeId) {
                 fetch('apis/fetch-sub-route.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: new URLSearchParams({ route_id: routeId })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success' && data.data.length > 0) {
-                        let options = '<option value="">নির্বাচন করুন</option>';
-                        data.data.forEach(subRoute => {
-                            options += `<option value="${subRoute.id}">${subRoute.destination_name}</option>`;
-                        });
-                        subRouteSelect.innerHTML = options;
-                        subRouteSelect.disabled = false;
-                    } else {
-                        subRouteSelect.innerHTML = '<option value="">কোনো সাব-রুট পাওয়া যায়নি</option>';
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams({
+                            route_id: routeId
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success' && data.data.length > 0) {
+                            let options = '<option value="">নির্বাচন করুন</option>';
+                            data.data.forEach(subRoute => {
+                                if (subRoute.id == studentSubRouteId) {
+                                    options += `<option value="${subRoute.id}" selected>${subRoute.destination_name}</option>`;
+                                } else {
+                                    options += `<option value="${subRoute.id}">${subRoute.destination_name}</option>`;
+                                }
+                            });
+                            subRouteSelect.innerHTML = options;
+                            subRouteSelect.disabled = false;
+                        } else {
+                            subRouteSelect.innerHTML = '<option value="">কোনো সাব-রুট পাওয়া যায়নি</option>';
+                            subRouteSelect.disabled = true;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('ত্রুটি:', error);
+                        subRouteSelect.innerHTML = '<option value="">লোড করতে সমস্যা হয়েছে</option>';
                         subRouteSelect.disabled = true;
-                    }
-                })
-                .catch(error => {
-                    console.error('ত্রুটি:', error);
-                    subRouteSelect.innerHTML = '<option value="">লোড করতে সমস্যা হয়েছে</option>';
-                    subRouteSelect.disabled = true;
-                });
+                    });
             } else {
                 subRouteSelect.innerHTML = '<option value="">নির্বাচন করুন</option>';
                 subRouteSelect.disabled = true;
             }
-        });
+        }
+
+        document.getElementById('route').addEventListener('change', handleInputChange);
     </script>
 </body>
+
 </html>

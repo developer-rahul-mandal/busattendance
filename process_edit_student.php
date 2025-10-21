@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $id = (int)trim($_POST['id']?? 0);
 $student_name = trim($_POST['student_name'] ?? '');
 $student_id = trim($_POST['student_id'] ?? '');
+$school_name = trim($_POST['school_name'] ?? '');
 $route_id = trim($_POST['route'] ?? '');
 $sub_route_id = trim($_POST['sub_route'] ?? '');
 $phone = trim($_POST['phone'] ?? '');
@@ -28,8 +29,23 @@ $address = trim($_POST['address'] ?? '');
 $gender = $_POST['gender'] ?? 'male';
 $status = $_POST['status'] ?? 'active';
 
+$upload_dir = __DIR__ . '/uploads/';
+if (!file_exists($upload_dir)) {
+    mkdir($upload_dir, 0777, true);
+}
+
 // ভ্যালিডেশন
 $errors = [];
+
+// // ছবি আপলোড হ্যান্ডলিং
+// if (isset($_FILES["image"]) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+//     $file_tmp = $_FILES['image']['tmp_name'];
+//     $file_name = uniqid() . "_" . basename($_FILES['image']['name']);
+//     $path = $upload_dir . $file_name;
+//     move_uploaded_file($file_tmp, $path);
+// }
+
+// ID ভ্যালিডেশন
 
 if ($id <= 0) {
     $errors[] = "অবৈধ শিক্ষার্থী ID";
@@ -76,6 +92,40 @@ if (!empty($errors)) {
 }
 
 try {
+
+    // Fetch existing student info first (to get current image path)
+    $stmt = $pdo->prepare("SELECT img_path FROM students WHERE id = :id LIMIT 1");
+    $stmt->execute([':id' => $id]);
+    $existingStudent = $stmt->fetch(PDO::FETCH_ASSOC);
+    $current_image = $existingStudent['img_path'] ?? null;
+
+    // Handle new image upload
+    if (isset($_FILES["image"]) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $file_tmp = $_FILES['image']['tmp_name'];
+        $file_name = uniqid() . "_" . basename($_FILES['image']['name']);
+        $path = $upload_dir . $file_name;
+
+        // Move new file
+        if (move_uploaded_file($file_tmp, $path)) {
+            // Optionally delete old image
+            if (!empty($current_image) && file_exists($upload_dir . $current_image)) {
+                unlink($upload_dir . $current_image);
+            }
+        } else {
+            $_SESSION['error_message'] = "ছবি আপলোড করতে সমস্যা হয়েছে।";
+            header('Location: edit_student.php?id=' . $id);
+            exit();
+        }
+    } else {
+        // No new image selected, keep existing
+        $file_name = $current_image;
+    }
+
+
+
+
+
+
     
     // শিক্ষার্থী ID ইউনিক চেক করুন
     $check_student = "SELECT COUNT(*) FROM students WHERE student_id = :student_id AND id != :id";
@@ -88,12 +138,16 @@ try {
         header('Location: edit_student.php?id=' . $id);
         exit();
     }
+
+
     
     // শিক্ষার্থী যোগ করুন
     $update_student = "
     UPDATE students 
     SET 
         student_name = :student_name,
+        img_path = :img_path,
+        school_name = :school_name,
         route_id = :route_id,
         sub_route_id = :sub_route_id,
         phone = :phone,
@@ -110,6 +164,8 @@ $stmt = $pdo->prepare($update_student);
 $result = $stmt->execute([
     ':id' => $id,
     ':student_name' => $student_name,
+    ':img_path' => $file_name,
+    ':school_name' => $school_name,
     ':route_id' => $route_id,
     ':sub_route_id' => $sub_route_id,
     ':phone' => $phone,
