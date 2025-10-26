@@ -120,12 +120,6 @@ try {
         // No new image selected, keep existing
         $file_name = $current_image;
     }
-
-
-
-
-
-
     
     // শিক্ষার্থী ID ইউনিক চেক করুন
     $check_student = "SELECT COUNT(*) FROM students WHERE student_id = :student_id AND id != :id";

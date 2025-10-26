@@ -37,38 +37,38 @@ if (isset($_FILES["image"])) {
     $path = $upload_dir . $file_name;
     move_uploaded_file($file_tmp, $path);
 } else {
-    $errors[] = "শিক্ষার্থীর ছবি প্রয়োজন।";
+    $errors[] = "Student photo required";
 }
 
 
 if (empty($student_name)) {
-    $errors[] = "শিক্ষার্থীর নাম প্রয়োজন";
+    $errors[] = "Student's name is required";
 }
 
 if (empty($student_id)) {
-    $errors[] = "শিক্ষার্থী ID প্রয়োজন";
+    $errors[] = "Student ID required";
 }
 
 
 if (empty($sub_route)) {
-    $errors[] = "সাব-রুট নির্বাচন করুন";
+    $errors[] = "Student pickup location required";
 }
 
 if (empty($phone)) {
-    $errors[] = "ফোন নম্বর প্রয়োজন";
+    $errors[] = "Phone number required";
 }
 
 if (empty($address)) {
-    $errors[] = "ঠিকানা প্রয়োজন";
+    $errors[] = "Address required";
 }
 
 // ফোন নম্বর ভ্যালিডেশন
 if (!empty($phone) && !preg_match('/^[0-9+\-\s()]{10,15}$/', $phone)) {
-    $errors[] = "সঠিক ফোন নম্বর দিন";
+    $errors[] = "Enter the correct phone number";
 }
 
 if (!empty($guardian_phone) && !preg_match('/^[0-9+\-\s()]{10,15}$/', $guardian_phone)) {
-    $errors[] = "সঠিক অভিভাবকের ফোন নম্বর দিন";
+    $errors[] = "Provide the correct guardian's phone number.";
 }
 
 // যদি কোনো ভ্যালিডেশন এরর থাকে
@@ -110,7 +110,7 @@ try {
     $count = $stmt->fetchColumn();
     
     if ($count > 0) {
-        $_SESSION['error_message'] = "এই শিক্ষার্থী ইতিমধ্যে বিদ্যমান";
+        $_SESSION['error_message'] = "This student already exists";
         header('Location: student_public_registration.php');
         exit();
     }
@@ -122,7 +122,7 @@ try {
     $count = $stmt->fetchColumn();
     
     if ($count > 0) {
-        $_SESSION['error_message'] = "এই শিক্ষার্থী ID ইতিমধ্যে বিদ্যমান";
+        $_SESSION['error_message'] = "This student ID already exists.If not Please try again.";
         header('Location: student_public_registration.php');
         exit();
     }
@@ -150,17 +150,17 @@ try {
     ]);
     
     if ($result) {
-        $_SESSION['success_message'] = "শিক্ষার্থী সফলভাবে যোগ করা হয়েছে!";
+        $_SESSION['success_message'] = "Student added successfully!";
         header('Location: student_public_registration.php');
         exit();
     } else {
-        $_SESSION['error_message'] = "শিক্ষার্থী যোগ করতে সমস্যা হয়েছে";
+        $_SESSION['error_message'] = "There was a problem adding students.";
         header('Location: student_public_registration.php');
         exit();
     }
     
 } catch (PDOException $e) {
-    $_SESSION['error_message'] = "সিস্টেমে সমস্যা হয়েছে: " . $e->getMessage();
+    $_SESSION['error_message'] = "Error Occurred: " . $e->getMessage();
     header('Location: student_public_registration.php');
     exit();
 }

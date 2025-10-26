@@ -34,7 +34,6 @@ function generateStudentID($pdo) {
 }
 
 $newStudentID = generateStudentID($pdo);
-
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +41,7 @@ $newStudentID = generateStudentID($pdo);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>শিক্ষার্থী যোগ করুন - বাস উপস্থিতি ব্যবস্থাপনা</title>
+    <title>Add Your Child Information</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -116,7 +115,7 @@ $newStudentID = generateStudentID($pdo);
         <div class="container">
             <a class="navbar-brand" href="dashboard.php">
                 <i class="fas fa-bus me-2"></i>
-                বাস উপস্থিতি ব্যবস্থাপনা
+                 Bus Attendance System
             </a>
         </div>
     </nav>
@@ -127,8 +126,8 @@ $newStudentID = generateStudentID($pdo);
                 <div class="form-container">
                     <div class="form-header">
                         <i class="fas fa-user-graduate student-icon"></i>
-                        <h3>নতুন শিক্ষার্থী যোগ করুন</h3>
-                        <p>শিক্ষার্থীর তথ্য প্রবেশ করে নতুন শিক্ষার্থী সিস্টেমে যোগ করুন</p>
+                        <h3>Add New Students</h3>
+                        <p>Enter Your Child / Students Details</p>
                     </div>
 
                     <?php if (isset($_SESSION['success_message'])): ?>
@@ -149,13 +148,13 @@ $newStudentID = generateStudentID($pdo);
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="student_name" class="form-label">শিক্ষার্থীর নাম <span class="text-danger">*</span></label>
+                                    <label for="student_name" class="form-label">Students Name / Child Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="student_name" name="student_name" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="student_id" class="form-label">শিক্ষার্থী ID <span class="text-danger">*</span></label>
+                                    <label for="student_id" class="form-label">Students ID <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="student_id" name="student_id" required readonly value="<?php echo htmlspecialchars($newStudentID); ?>">
                                     
                                 </div>
@@ -164,7 +163,7 @@ $newStudentID = generateStudentID($pdo);
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <label for="school_name" class="form-label">স্কুলের নাম</label>
+                                    <label for="school_name" class="form-label">School Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="school_name" name="school_name">
                                 </div>
                             </div>
@@ -172,13 +171,13 @@ $newStudentID = generateStudentID($pdo);
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="image" class="form-label">ছবি যোগ করুন <span class="text-danger">*</span></label>
+                                    <label for="image" class="form-label">Add Student / Child Photo Here <span class="text-danger">*</span></label>
                                     <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="sub_route" class="form-label">ওঠার স্থান <span class="text-danger">*</span></label>
+                                    <label for="sub_route" class="form-label">Pickup Location <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="sub_route" name="sub_route" required>
                                 </div>
                             </div>
@@ -186,13 +185,13 @@ $newStudentID = generateStudentID($pdo);
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="phone" class="form-label">ফোন নম্বর <span class="text-danger">*</span></label>
+                                    <label for="phone" class="form-label">Mobile Number <span class="text-danger">*</span></label>
                                     <input type="tel" class="form-control" id="phone" name="phone" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="guardian_phone" class="form-label">অভিভাবকের ফোন</label>
+                                    <label for="guardian_phone" class="form-label">Gurdian Contact Number</label>
                                     <input type="tel" class="form-control" id="guardian_phone" name="guardian_phone">
                                 </div>
                             </div>
@@ -201,38 +200,38 @@ $newStudentID = generateStudentID($pdo);
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="father_name" class="form-label">পিতার নাম</label>
+                                    <label for="father_name" class="form-label">Father`s Name</label>
                                     <input type="text" class="form-control" id="father_name" name="father_name">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="mother_name" class="form-label">মাতার নাম</label>
+                                    <label for="mother_name" class="form-label">Mother`s Name</label>
                                     <input type="text" class="form-control" id="mother_name" name="mother_name">
                                 </div>
                             </div>
                         </div>
 
                         <div class="mb-3">
-                            <label for="address" class="form-label">ঠিকানা <span class="text-danger">*</span></label>
-                            <textarea class="form-control" id="address" name="address" rows="3" placeholder="শিক্ষার্থীর পূর্ণ ঠিকানা..." required></textarea>
+                            <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="address" name="address" rows="3" placeholder="Student`s / Child`s Complete Address..." required></textarea>
                         </div>
 
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">লিঙ্গ</label>
+                                    <label class="form-label">Gender</label>
                                     <div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked>
                                             <label class="form-check-label" for="male">
-                                                পুরুষ
+                                                Male
                                             </label>
-                                        </div>
+                                        </div>  
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="gender" id="female" value="female">
                                             <label class="form-check-label" for="female">
-                                                মহিলা
+                                                Female
                                             </label>
                                         </div>
                                     </div>
@@ -240,18 +239,18 @@ $newStudentID = generateStudentID($pdo);
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">অবস্থা</label>
+                                    <label class="form-label">Status</label>
                                     <div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="status" id="active" value="active" checked>
                                             <label class="form-check-label" for="active">
-                                                সক্রিয়
+                                                Active
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="status" id="inactive" value="inactive">
                                             <label class="form-check-label" for="inactive">
-                                                নিষ্ক্রিয়
+                                                Inactive
                                             </label>
                                         </div>
                                     </div>
@@ -262,7 +261,7 @@ $newStudentID = generateStudentID($pdo);
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary me-3">
                                 <i class="fas fa-save me-2"></i>
-                                শিক্ষার্থী যোগ করুন
+                                Submit Student Details
                             </button>
                         </div>
                     </form>
