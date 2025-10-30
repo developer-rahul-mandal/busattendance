@@ -138,7 +138,7 @@ try {
                                 <th>স্কুল</th>
                                 <th>রুট</th>
                                 <th>ওঠার স্থান</th>
-                                <th>পছন্দের স্থান</th>
+                                <th>পিকআপের/<br>গন্তব্যের স্থান</th>
                                 <th>অভিভাবক</th>
                                 <th>ঠিকানা</th>
                                 <th>অবস্থা</th>
@@ -265,10 +265,13 @@ try {
                                                 
                                         ?>
                                     </td>
-                                    <td><?php echo htmlspecialchars($student['pickup_location']); ?></td>
+                                    <td>
+                                        <?php echo htmlspecialchars($student['pickup_location']); ?>/<br>
+                                        <?php echo htmlspecialchars($student['drop_location']); ?>
+                                    </td>
                                     <td style="white-space: nowrap;">
-                                        <span style="font-size: 15px;"><i class="fa-solid fa-mars me-2 text-info"></i><?php echo htmlspecialchars($student['father_name']); ?></span><br>
-                                        <span style="font-size: 15px;"><i class="fa-solid fa-venus me-2 text-warning"></i><?php echo htmlspecialchars($student['mother_name']); ?></span></br>
+                                        <span style="font-size: 15px;"><i class="fa-solid fa-mars me-2 text-info"></i><?php echo htmlspecialchars($student['father_name']); ?> (<?= htmlspecialchars($student['father_occupation']) ?>)</span><br>
+                                        <span style="font-size: 15px;"><i class="fa-solid fa-venus me-2 text-warning"></i><?php echo htmlspecialchars($student['mother_name']); ?> (<?= htmlspecialchars($student['mother_occupation']) ?>)</span></br>
                                         <span style="font-size: small;"><i class="fa-solid fa-phone me-2 text-primary "></i><?php echo htmlspecialchars($student['guardian_phone']); ?></span>
                                     </td>
                                     <td><?php echo htmlspecialchars($student['address']); ?></td>

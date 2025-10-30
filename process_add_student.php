@@ -20,11 +20,14 @@ $student_id = trim($_POST['student_id'] ?? '');
 $school_name = trim($_POST['school_name'] ?? '');
 $route_id = trim($_POST['route'] ?? '');
 $sub_route_id = trim($_POST['sub_route'] ?? '');
-$sub_route = trim($_POST['sub_route_name'] ?? '');
+$pickup_location = trim($_POST['pickup_location'] ?? '');
+$drop_location = trim($_POST['drop_location'] ?? '');
 $phone = trim($_POST['phone'] ?? '');
 $guardian_phone = trim($_POST['guardian_phone'] ?? '');
 $father_name = trim($_POST['father_name'] ?? '');
 $mother_name = trim($_POST['mother_name'] ?? '');
+$father_occupation = trim($_POST['father_occupation'] ?? '');
+$mother_occupation = trim($_POST['mother_occupation'] ?? '');
 $address = trim($_POST['address'] ?? '');
 $gender = $_POST['gender'] ?? 'male';
 $status = $_POST['status'] ?? 'active';
@@ -65,6 +68,14 @@ if (empty($sub_route_id)) {
     $errors[] = "সাব-রুট নির্বাচন করুন";
 }
 
+if (empty($pickup_location)) {
+    $errors[] = "পিকআপ লোকেশন প্রয়োজন";
+}
+
+if (empty($drop_location)) {
+    $errors[] = "ড্রপ লোকেশন প্রয়োজন";
+}
+
 if (empty($phone)) {
     $errors[] = "ফোন নম্বর প্রয়োজন";
 }
@@ -101,10 +112,13 @@ try {
         route_id INT NOT NULL,
         sub_route_id INT NOT NULL,
         pickup_location VARCHAR(255),
+        drop_location VARCHAR(255),
         phone VARCHAR(20) NOT NULL,
         guardian_phone VARCHAR(20),
         father_name VARCHAR(100),
         mother_name VARCHAR(100),
+        father_occupation VARCHAR(100),
+        mother_occupation VARCHAR(100),
         address TEXT NOT NULL,
         gender ENUM('male', 'female') DEFAULT 'male',
         status ENUM('active', 'inactive') DEFAULT 'active',
@@ -128,8 +142,8 @@ try {
     
     // শিক্ষার্থী যোগ করুন
     $insert_student = "
-    INSERT INTO students (student_id, student_name, img_path, school_name, route_id, sub_route_id, pickup_location, phone, guardian_phone, father_name, mother_name, address, gender, status) 
-    VALUES (:student_id, :student_name, :img_path, :school_name, :route_id, :sub_route_id, :pickup_location, :phone, :guardian_phone, :father_name, :mother_name, :address, :gender, :status)
+    INSERT INTO students (student_id, student_name, img_path, school_name, route_id, sub_route_id, pickup_location, drop_location, phone, guardian_phone, father_name, mother_name, father_occupation, mother_occupation, address, gender, status) 
+    VALUES (:student_id, :student_name, :img_path, :school_name, :route_id, :sub_route_id, :pickup_location, :drop_location, :phone, :guardian_phone, :father_name, :mother_name, :father_occupation, :mother_occupation, :address, :gender, :status)
     ";
     
     $stmt = $pdo->prepare($insert_student);
@@ -140,11 +154,14 @@ try {
         ':school_name' => $school_name,
         ':route_id' => $route_id,
         ':sub_route_id' => $sub_route_id,
-        ':pickup_location' => $sub_route,
+        ':pickup_location' => $pickup_location,
+        ':drop_location' => $drop_location,
         ':phone' => $phone,
         ':guardian_phone' => $guardian_phone,
         ':father_name' => $father_name,
         ':mother_name' => $mother_name,
+        ':father_occupation' => $father_occupation,
+        ':mother_occupation' => $mother_occupation,
         ':address' => $address,
         ':gender' => $gender,
         ':status' => $status

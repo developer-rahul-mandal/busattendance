@@ -21,10 +21,14 @@ $student_id = trim($_POST['student_id'] ?? '');
 $school_name = trim($_POST['school_name'] ?? '');
 $route_id = trim($_POST['route'] ?? '');
 $sub_route_id = trim($_POST['sub_route'] ?? '');
+$pickup_location = trim($_POST['pickup_location']);
+$drop_location = trim($_POST['drop_location']);
 $phone = trim($_POST['phone'] ?? '');
 $guardian_phone = trim($_POST['guardian_phone'] ?? '');
 $father_name = trim($_POST['father_name'] ?? '');
 $mother_name = trim($_POST['mother_name'] ?? '');
+$father_occupation = trim($_POST['father_occupation'] ?? '');
+$mother_occupation = trim($_POST['mother_occupation'] ?? '');
 $address = trim($_POST['address'] ?? '');
 $gender = $_POST['gender'] ?? 'male';
 $status = $_POST['status'] ?? 'active';
@@ -36,14 +40,6 @@ if (!file_exists($upload_dir)) {
 
 // ভ্যালিডেশন
 $errors = [];
-
-// // ছবি আপলোড হ্যান্ডলিং
-// if (isset($_FILES["image"]) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-//     $file_tmp = $_FILES['image']['tmp_name'];
-//     $file_name = uniqid() . "_" . basename($_FILES['image']['name']);
-//     $path = $upload_dir . $file_name;
-//     move_uploaded_file($file_tmp, $path);
-// }
 
 // ID ভ্যালিডেশন
 
@@ -65,6 +61,14 @@ if (empty($route_id)) {
 
 if (empty($sub_route_id)) {
     $errors[] = "সাব-রুট নির্বাচন করুন";
+}
+
+if (empty($pickup_location)) {
+    $errors[] = "পিকআপ লোকেশন প্রয়োজন";
+}
+
+if (empty($drop_location)) {
+    $errors[] = "ড্রপ লোকেশন প্রয়োজন";
 }
 
 if (empty($phone)) {
@@ -144,10 +148,14 @@ try {
         school_name = :school_name,
         route_id = :route_id,
         sub_route_id = :sub_route_id,
+        pickup_location = :pickup_location,
+        drop_location = :drop_location,
         phone = :phone,
         guardian_phone = :guardian_phone,
         father_name = :father_name,
         mother_name = :mother_name,
+        father_occupation = :father_occupation,
+        mother_occupation = :mother_occupation,
         address = :address,
         gender = :gender,
         status = :status
@@ -162,10 +170,14 @@ $result = $stmt->execute([
     ':school_name' => $school_name,
     ':route_id' => $route_id,
     ':sub_route_id' => $sub_route_id,
+    ':pickup_location' => $pickup_location,
+    ':drop_location' => $drop_location,
     ':phone' => $phone,
     ':guardian_phone' => $guardian_phone,
     ':father_name' => $father_name,
     ':mother_name' => $mother_name,
+    ':father_occupation' => $father_occupation,
+    ':mother_occupation' => $mother_occupation,
     ':address' => $address,
     ':gender' => $gender,
     ':status' => $status

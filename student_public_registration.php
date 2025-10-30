@@ -161,37 +161,44 @@ $newStudentID = generateStudentID($pdo);
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="school_name" class="form-label">School Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="school_name" name="school_name">
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="image" class="form-label">Add Student / Child Photo Here <span class="text-danger">*</span></label>
                                     <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label for="sub_route" class="form-label">Pickup Location <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" id="sub_route" name="sub_route" required>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="drop" class="form-label">Drop Location <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="drop" name="drop" required>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="phone" class="form-label">Mobile Number <span class="text-danger">*</span></label>
+                                    <label for="phone" class="form-label">Father's Contact Number<span class="text-danger">*</span></label>
                                     <input type="tel" class="form-control" id="phone" name="phone" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="guardian_phone" class="form-label">Gurdian Contact Number</label>
+                                    <label for="guardian_phone" class="form-label">Mother's Contact Number</label>
                                     <input type="tel" class="form-control" id="guardian_phone" name="guardian_phone">
                                 </div>
                             </div>
@@ -208,6 +215,20 @@ $newStudentID = generateStudentID($pdo);
                                 <div class="mb-3">
                                     <label for="mother_name" class="form-label">Mother`s Name</label>
                                     <input type="text" class="form-control" id="mother_name" name="mother_name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="father_occupation" class="form-label">Father`s Occupation</label>
+                                    <input type="text" class="form-control" id="father_occupation" name="father_occupation">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="mother_occupation" class="form-label">Mother`s Occupation</label>
+                                    <input type="text" class="form-control" id="mother_occupation" name="mother_occupation">
                                 </div>
                             </div>
                         </div>

@@ -45,6 +45,7 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="bn">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,51 +58,60 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
             background-color: #f8f9fa;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .navbar {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
         }
+
         .dashboard-header {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             margin-bottom: 30px;
             padding: 30px;
         }
+
         .stats-card {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             padding: 25px;
             margin-bottom: 25px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border-left: 5px solid #667eea;
         }
+
         .stats-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
+
         .stats-icon {
             font-size: 2.5rem;
             color: #667eea;
             margin-bottom: 15px;
         }
+
         .stats-number {
             font-size: 2rem;
             font-weight: 700;
             color: #333;
             margin-bottom: 5px;
         }
+
         .stats-label {
             color: #666;
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+
         .welcome-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -109,25 +119,29 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
             padding: 30px;
             margin-bottom: 30px;
         }
+
         .btn-logout {
-            background: rgba(255,255,255,0.2);
-            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             color: white;
             padding: 8px 20px;
             border-radius: 25px;
             transition: all 0.3s ease;
         }
+
         .btn-logout:hover {
-            background: rgba(255,255,255,0.3);
-            border-color: rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
             color: white;
         }
+
         .quick-actions {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             padding: 25px;
         }
+
         .action-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
@@ -139,26 +153,29 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
             text-decoration: none;
             display: inline-block;
         }
+
         .action-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
             color: white;
         }
-        
+
         /* মাস্টার মেনু স্টাইল */
         .master-menu {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             padding: 25px;
             margin-bottom: 30px;
         }
+
         .master-menu h4 {
             color: #333;
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 3px solid #667eea;
         }
+
         .master-item {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             border-radius: 10px;
@@ -167,20 +184,24 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
             border-left: 5px solid #667eea;
             transition: all 0.3s ease;
         }
+
         .master-item:hover {
             transform: translateX(5px);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
+
         .master-item h6 {
             color: #333;
             margin-bottom: 10px;
             font-weight: 600;
         }
+
         .master-item p {
             color: #666;
             margin-bottom: 15px;
             font-size: 0.9rem;
         }
+
         .master-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
@@ -192,18 +213,20 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
             transition: all 0.3s ease;
             display: inline-block;
         }
+
         .master-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 3px 8px rgba(102, 126, 234, 0.3);
             color: white;
         }
+
         .master-icon {
             font-size: 2rem;
             color: #667eea;
             margin-bottom: 10px;
         }
 
-        #html5-qrcode-button-camera-permission{
+        #html5-qrcode-button-camera-permission {
             background: #f39c12;
             color: white;
             border-radius: 8px;
@@ -212,7 +235,8 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
             font-size: 1rem;
             margin-top: 15px;
         }
-        #html5-qrcode-button-camera-start{
+
+        #html5-qrcode-button-camera-start {
             background: #667eea;
             color: white;
             border-radius: 8px;
@@ -221,7 +245,8 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
             font-size: 1rem;
             margin-top: 15px;
         }
-        #html5-qrcode-button-camera-stop{
+
+        #html5-qrcode-button-camera-stop {
             background: #e74c3c;
             color: white;
             border-radius: 8px;
@@ -230,14 +255,17 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
             font-size: 1rem;
             margin-top: 15px;
         }
-        #html5-qrcode-anchor-scan-type-change{
+
+        #html5-qrcode-anchor-scan-type-change {
             display: none !important;
         }
-        img[alt="Info icon"]{
+
+        img[alt="Info icon"] {
             display: none !important;
         }
     </style>
 </head>
+
 <body>
     <!-- নেভিগেশন বার -->
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -259,32 +287,54 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
     </nav>
 
     <div class="container mt-4">
-        
-        <div class="row text-center">
-            <div class="col-md-12">
-                <h2>ছাত্রদের পিকআপ স্ক্যান করুন</h2>
-                <p class="text-muted">নিচের ক্যামেরা ব্যবহার করে ছাত্রদের QR কোড স্ক্যান করুন</p>
-                <div id="reader" style="width:90%; margin:auto;"></div>
-                <div id="result" class="mt-3"></div>
 
+        <div id="scanner-container" class="text-center mt-3">
+            <video id="preview" style="width:90%; max-width:400px; border:2px solid #667eea; border-radius:10px;"></video>
+            <div id="result" class="mt-3"></div>
+            <button id="stopBtn" class="btn btn-danger mt-2">স্ক্যান বন্ধ করুন</button>
         </div>
     </div>
-    <script>
-        function onScanSuccess(decodedText, decodedResult) {
-            // স্ক্যান সফল হলে এখানে কোড লিখুন
-            document.getElementById('result').innerHTML = `<div class="alert alert-success">স্ক্যান সফল: ${decodedText}</div>`;
-            // আপনি এখানে AJAX কল করতে পারেন সার্ভারে ডেটা পাঠানোর জন্য
-        }
+    <script type="module">
+  import { BrowserQRCodeReader } from "https://cdn.jsdelivr.net/npm/@zxing/browser@latest/+esm";
 
-        function onScanFailure(error) {
-            // স্ক্যান ব্যর্থ হলে এখানে কোড লিখুন
-            console.warn(`স্ক্যান ব্যর্থ: ${error}`);
-        }
+  const video = document.getElementById('preview');
+  const output = document.getElementById('result');
+  const stopBtn = document.getElementById('stopBtn');
 
-        let html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader", { fps: 10, qrbox: 250 });
-        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
-    </script>
+  const codeReader = new BrowserQRCodeReader();
+  let isScanning = true;
+
+  // Start scanning
+  codeReader.decodeFromVideoDevice(null, video, (result, err) => {
+    if (result && isScanning) {
+      const qrData = result.getText();
+      output.innerHTML = `<div class="alert alert-success">✅ স্ক্যান সফল: ${qrData}</div>`;
+      isScanning = false;
+      codeReader.reset(); // stop camera after successful scan
+
+      // --- Optional: Send data to PHP via AJAX ---
+      /*
+      fetch('scan_handler.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'data=' + encodeURIComponent(qrData)
+      })
+      .then(res => res.text())
+      .then(response => {
+        output.innerHTML += `<div class="alert alert-info mt-2">${response}</div>`;
+      });
+      */
+    }
+  });
+
+  // Stop scanning manually
+  stopBtn.onclick = () => {
+    codeReader.reset();
+    output.innerHTML = `<div class="alert alert-warning">⛔ স্ক্যান বন্ধ করা হয়েছে</div>`;
+  };
+</script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

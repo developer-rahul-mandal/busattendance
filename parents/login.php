@@ -134,7 +134,7 @@ require_once '../config/database.php';
                 </div>
  
                 <div class="form-group">
-                    <input type="text" name="phone" id="phone" class="form-control" placeholder="Student Phone Number" required>
+                    <input type="text" name="phone" id="phone" class="form-control" placeholder="Father/Mother Phone Number" required>
                     <i class="fas fa-phone input-icon"></i>
                 </div>
 

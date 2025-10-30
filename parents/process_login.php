@@ -36,7 +36,7 @@ if (!empty($errors)) {
 }
 
 try {
-    $stmt = $pdo->prepare("SELECT * FROM students WHERE student_name = :student_name AND phone = :phone AND school_name = :school_name LIMIT 1");
+    $stmt = $pdo->prepare("SELECT * FROM students WHERE student_name = :student_name AND (phone = :phone OR guardian_phone = :phone) AND school_name = :school_name LIMIT 1");
     $stmt->execute(['student_name' => $student_name, 'phone' => $student_phone, 'school_name' => $school_name]);
     $student = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$student) {

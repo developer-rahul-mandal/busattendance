@@ -228,163 +228,6 @@ try {
             </div>
         </div>
 
-        <!-- পরিসংখ্যান কার্ড -->
-        <!-- <div class="row">
-            <div class="col-md-3">
-                <div class="stats-card text-center">
-                    <i class="fas fa-users stats-icon"></i>
-                    <div class="stats-number">
-                        <?php
-                        // মোট শিক্ষার্থী সংখ্যা গণনা করুন
-                        $stmt = $pdo->query("SELECT COUNT(*) AS total_students FROM students WHERE status = 'active'");
-                        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                        echo $result['total_students'];
-                        ?>
-                    </div>
-                    <div class="stats-label">মোট শিক্ষার্থী</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stats-card text-center">
-                    <i class="fas fa-bus stats-icon"></i>
-                    <div class="stats-number">
-                        <?php
-                        // সক্রিয় বাস সংখ্যা গণনা করুন
-                        $stmt = $pdo->query("SELECT COUNT(*) AS total_buses FROM buses WHERE status = 'active'");
-                        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                        echo $result['total_buses'];
-                        ?>
-                    </div>
-                    <div class="stats-label">সক্রিয় বাস</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stats-card text-center">
-                    <i class="fas fa-route stats-icon"></i>
-                    <div class="stats-number">
-                        <?php
-                        // মোট রুট সংখ্যা গণনা করুন
-                        $stmt = $pdo->query("SELECT COUNT(*) AS total_routes FROM routes WHERE status = 'active'");
-                        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-                        echo $result['total_routes'];
-                        ?>
-                    </div>
-                    <div class="stats-label">বাস রুট</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="stats-card text-center">
-                    <i class="fas fa-calendar-check stats-icon"></i>
-                    <div class="stats-number">0</div>
-                    <div class="stats-label">আজকের উপস্থিতি</div>
-                </div>
-            </div>
-        </div> -->
-
-        <!-- মাস্টার মেনু -->
-        <!-- <div class="row">
-            <div class="col-12">
-                <div class="master-menu">
-                    <h4>
-                        <i class="fas fa-cogs me-2"></i>
-                        মাস্টার ম্যানেজমেন্ট
-                    </h4>
-                    <div class="row justify-content-center">
-                        <div class="col-md-6">
-                            <div class="master-item">
-                                <i class="fas fa-bus master-icon"></i>
-                                <h6>বাস ব্যবস্থাপনা</h6>
-                                <p>নতুন বাস যোগ করুন, বাসের তথ্য সম্পাদনা করুন এবং বাসের তালিকা দেখুন।</p>
-                                <a href="add_bus.php" class="master-btn">
-                                    <i class="fas fa-plus me-1"></i>
-                                    বাস যোগ করুন
-                                </a>
-                                <a href="bus_list.php" class="master-btn" style="margin-left: 10px;">
-                                    <i class="fas fa-list me-1"></i>
-                                    বাস তালিকা
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="master-item">
-                                <i class="fas fa-user-tie master-icon"></i>
-                                <h6>ড্রাইভার ব্যবস্থাপনা</h6>
-                                <p>নতুন ড্রাইভার যোগ করুন, ড্রাইভারের তথ্য সম্পাদনা করুন এবং ড্রাইভার তালিকা দেখুন।</p>
-                                <a href="add_driver.php" class="master-btn">
-                                    <i class="fas fa-plus me-1"></i>
-                                    ড্রাইভার যোগ করুন
-                                </a>
-                                <a href="driver_list.php" class="master-btn" style="margin-left: 10px;">
-                                    <i class="fas fa-list me-1"></i>
-                                    ড্রাইভার তালিকা
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="master-item">
-                                <i class="fas fa-route master-icon"></i>
-                                <h6>রুট ব্যবস্থাপনা</h6>
-                                <p>বাস রুট যোগ করুন, রুটের তথ্য সম্পাদনা করুন এবং রুটের তালিকা দেখুন।</p>
-                                <a href="add_route.php" class="master-btn">
-                                    <i class="fas fa-plus me-1"></i>
-                                    রুট যোগ করুন
-                                </a>
-                                <a href="route_list.php" class="master-btn" style="margin-left: 10px;">
-                                    <i class="fas fa-list me-1"></i>
-                                    রুট তালিকা
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="master-item">
-                                <i class="fas fa-users master-icon"></i>
-                                <h6>শিক্ষার্থী ব্যবস্থাপনা</h6>
-                                <p>নতুন শিক্ষার্থী যোগ করুন, শিক্ষার্থীর তথ্য সম্পাদনা করুন এবং শিক্ষার্থী তালিকা দেখুন।</p>
-                                <a href="add_student.php" class="master-btn">
-                                    <i class="fas fa-plus me-1"></i>
-                                    শিক্ষার্থী যোগ করুন
-                                </a>
-                                <a href="student_list.php" class="master-btn" style="margin-left: 10px;">
-                                    <i class="fas fa-list me-1"></i>
-                                    শিক্ষার্থী তালিকা
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="master-item">
-                                <i class="fa-solid fa-handshake master-icon"></i>
-                                <h6>মহিলা পরিচারিকা ব্যবস্থাপনা</h6>
-                                <p>নতুন মহিলা পরিচারিকা যোগ করুন, মহিলা পরিচারিকা তথ্য সম্পাদনা করুন এবং মহিলা পরিচারিকা তালিকা দেখুন।</p>
-                                <a href="add_attendant.php" class="master-btn">
-                                    <i class="fas fa-plus me-1"></i>
-                                    মহিলা পরিচারিকা যোগ করুন
-                                </a>
-                                <a href="attendant_list.php" class="master-btn" style="margin-left: 10px;">
-                                    <i class="fas fa-list me-1"></i>
-                                    মহিলা পরিচারিকা তালিকা
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="master-item">
-                                <i class="fa-solid fa-font-awesome master-icon"></i>
-                                <h6>রুট পরিচারিকা বরাদ্দ করুন</h6>
-                                <p>নতুন রুট পরিচারিকা যোগ করুন, রুট পরিচারিকার তথ্য সম্পাদনা করুন এবং রুট পরিচারিকার তালিকা দেখুন।</p>
-                                <a href="add_route_attendant.php" class="master-btn">
-                                    <i class="fas fa-plus me-1"></i>
-                                    রুট পরিচারিকা যোগ করুন
-                                </a>
-                                <a href="route_attendant_list.php" class="master-btn" style="margin-left: 10px;">
-                                    <i class="fas fa-list me-1"></i>
-                                    রুট পরিচারিকা তালিকা
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
         <!-- দ্রুত কার্যক্রম -->
         <div class="row">
             <div class="col-12">
@@ -395,133 +238,28 @@ try {
                     </h4>
                     <div class="text-center">
                         <form id="idCardForm">
-                    
                             <input type="hidden" id="student_id" name="student_id" value="<?= $student['student_id']; ?>" required>
                             <input type="hidden" id="name" name="name" value="<?= $student['student_name']; ?>" required>
                             <input type="hidden" id="phone" name="phone" value="+91 <?= $student['phone']; ?>" required placeholder="Enter phone number">
                             <input type="hidden" id="school" name="school" value="<?= $student['school_name']; ?>" required placeholder="Enter school name">
                             <input type="hidden" id="student_image" name="student_image" value="../uploads/<?= $student['img_path']; ?>">
-                            <button type="submit" class="action-btn" id="generateBtn">
+                            <input type="hidden" id="pickup" name="pickup" value="<?= $student['pickup_location']; ?>">
+                            <input type="hidden" id="drop" name="drop" value="<?= $student['drop_location']; ?>">
+                            <button type="submit" class="action-btn" id="downloadBtn">
                                 <i class="fas fa-download me-2"></i> DOWNLOAD STUDENT ID CARD
                             </button>
+                            <button type="submit" class="action-btn" id="printBtn">
+                                <i class="fas fa-print me-2"></i> PRINT STUDENT ID CARD
+                            </button>
                         </form>
-                        <!-- <a href="add_student.php" class="action-btn">
-                            <i class="fas fa-download me-2"></i>
-                            DOWNLOAD STUDENT ID CARD
-                        </a> -->
-                        <!-- <a href="add_bus.php" class="action-btn">
-                            <i class="fas fa-bus me-2"></i>
-                            নতুন বাস যোগ করুন
-                        </a>
-                        <a href="add_driver.php" class="action-btn">
-                            <i class="fas fa-user-tie me-2"></i>
-                            নতুন ড্রাইভার যোগ করুন
-                        </a>
-                        <a href="attendance_report.php" class="action-btn">
-                            <i class="fas fa-chart-bar me-2"></i>
-                            উপস্থিতি রিপোর্ট
-                        </a> -->
+                        
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- সিস্টেম তথ্য -->
-        <!-- <div class="row mt-4">
-            <div class="col-12">
-                <div class="dashboard-header">
-                    <h5 class="mb-3">
-                        <i class="fas fa-info-circle me-2"></i>
-                        সিস্টেম তথ্য
-                    </h5>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p><strong>লগইন সময়:</strong> <?php echo date('d-m-Y H:i:s', $_SESSION['login_time']); ?></p>
-                            <p><strong>ব্যবহারকারী:</strong> <?php echo htmlspecialchars($_SESSION['super_admin_username']); ?></p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong>ইমেইল:</strong> <?php echo htmlspecialchars($_SESSION['super_admin_email']); ?></p>
-                            <p><strong>সেশনের সময়:</strong> ২৪ ঘন্টা</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </div>
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        let currentCardData = null;
-        document.getElementById('idCardForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            await generateIDCard();
-        });
-
-        async function generateIDCard() {
-            const formData = new FormData(document.getElementById('idCardForm'));
-            const data = Object.fromEntries(formData.entries());
-
-            document.getElementById('generateBtn').disabled = true;
-
-            // showLoading(true);
-            // hideAlert();
-
-            try {
-                const response = await fetch('test.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                const responseText = await response.text();
-                let result;
-
-                try {
-                    result = JSON.parse(responseText);
-                } catch (parseError) {
-                    console.error('JSON parse error:', parseError);
-                    throw new Error('Server returned invalid JSON. Please check the API endpoint.');
-                }
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                if (result.success) {
-                    currentCardData = result.data;
-                    // displayIDCard(result.data);
-                    downloadIDCard();
-                    // showAlert('ID card generated successfully with QR code!', 'success');
-                } else {
-                    throw new Error(result.error || 'Failed to generate ID card');
-                }
-
-            } catch (error) {
-                console.error('Error:', error);
-                // showAlert('Error: ' + error.message, 'error');
-            } finally {
-                // showLoading(false);
-                document.getElementById('generateBtn').disabled = false;
-            }
-        }
-
-        function downloadIDCard() {
-            if (!currentCardData) return;
-
-            const link = document.createElement('a');
-            link.download = `student_id_${currentCardData.student_id}.png`;
-            link.href = `data:image/png;base64,${currentCardData.base64_image}`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-        }
-
-
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./script.js"></script>
 </body>
 </html>

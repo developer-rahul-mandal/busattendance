@@ -217,24 +217,36 @@ $newStudentID = generateStudentID($pdo);
                                     <select class="form-control" id="sub_route" name="sub_route" required disabled>
                                         <option value="">নির্বাচন করুন</option>
                                         <!-- সেকশন ডেটা জাভাস্ক্রিপ্ট দিয়ে লোড হবে -->
-
-
                                     </select>
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="sub_route_name" id="sub_route_name" value="">
 
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="phone" class="form-label">ফোন নম্বর <span class="text-danger">*</span></label>
+                                    <label for="pickup_location" class="form-label">পিকআপের স্থান<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="pickup_location" name="pickup_location" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="drop_location" class="form-label">গন্তব্যের স্থান</label>
+                                    <input type="text" class="form-control" id="drop_location" name="drop_location" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">পিতার ফোন নম্বর <span class="text-danger">*</span></label>
                                     <input type="tel" class="form-control" id="phone" name="phone" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label for="guardian_phone" class="form-label">অভিভাবকের ফোন</label>
+                                    <label for="guardian_phone" class="form-label">মাতার ফোন নম্বর</label>
                                     <input type="tel" class="form-control" id="guardian_phone" name="guardian_phone">
                                 </div>
                             </div>
@@ -251,6 +263,21 @@ $newStudentID = generateStudentID($pdo);
                                 <div class="mb-3">
                                     <label for="mother_name" class="form-label">মাতার নাম</label>
                                     <input type="text" class="form-control" id="mother_name" name="mother_name">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="father_occupation" class="form-label">পিতার পেশা</label>
+                                    <input type="text" class="form-control" id="father_occupation" name="father_occupation">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="mother_occupation" class="form-label">মাতার পেশা</label>
+                                    <input type="text" class="form-control" id="mother_occupation" name="mother_occupation">
                                 </div>
                             </div>
                         </div>

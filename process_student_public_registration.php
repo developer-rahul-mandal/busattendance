@@ -13,10 +13,13 @@ $student_name = trim($_POST['student_name'] ?? '');
 $student_id = trim($_POST['student_id'] ?? '');
 $school_name = trim($_POST['school_name'] ?? '');
 $sub_route = trim($_POST['sub_route'] ?? '');
+$drop = trim($_POST['drop'] ?? '');
 $phone = trim($_POST['phone'] ?? '');
 $guardian_phone = trim($_POST['guardian_phone'] ?? '');
 $father_name = trim($_POST['father_name'] ?? '');
 $mother_name = trim($_POST['mother_name'] ?? '');
+$father_occupation = trim($_POST['father_occupation'] ?? '');
+$mother_occupation = trim($_POST['mother_occupation'] ?? '');
 $address = trim($_POST['address'] ?? '');
 $gender = $_POST['gender'] ?? 'male';
 $status = $_POST['status'] ?? 'active';
@@ -90,10 +93,13 @@ try {
         route_id INT NOT NULL,
         sub_route_id INT NOT NULL,
         pickup_location VARCHAR(255),
+        drop_location VARCHAR(255),
         phone VARCHAR(20) NOT NULL,
         guardian_phone VARCHAR(20),
         father_name VARCHAR(100),
         mother_name VARCHAR(100),
+        father_occupation VARCHAR(100),
+        mother_occupation VARCHAR(100),
         address TEXT NOT NULL,
         gender ENUM('male', 'female') DEFAULT 'male',
         status ENUM('active', 'inactive') DEFAULT 'active',
@@ -122,15 +128,15 @@ try {
     $count = $stmt->fetchColumn();
     
     if ($count > 0) {
-        $_SESSION['error_message'] = "This student ID already exists.If not Please try again.";
+        $_SESSION['error_message'] = "This student ID already exists. If not Please try again.";
         header('Location: student_public_registration.php');
         exit();
     }
     
     // শিক্ষার্থী যোগ করুন
     $insert_student = "
-    INSERT INTO students (student_id, student_name, img_path, school_name, pickup_location, phone, guardian_phone, father_name, mother_name, address, gender, status) 
-    VALUES (:student_id, :student_name, :img_path, :school_name, :pickup_location, :phone, :guardian_phone, :father_name, :mother_name, :address, :gender, :status)
+    INSERT INTO students (student_id, student_name, img_path, school_name, pickup_location, drop_location, phone, guardian_phone, father_name, mother_name, father_occupation, mother_occupation, address, gender, status) 
+    VALUES (:student_id, :student_name, :img_path, :school_name, :pickup_location, :drop_location, :phone, :guardian_phone, :father_name, :mother_name, :father_occupation, :mother_occupation, :address, :gender, :status)
     ";
     
     $stmt = $pdo->prepare($insert_student);
@@ -140,10 +146,13 @@ try {
         ':img_path' => $file_name,
         ':school_name' => $school_name,
         ':pickup_location' => $sub_route,
+        ':drop_location' => $drop,
         ':phone' => $phone,
         ':guardian_phone' => $guardian_phone,
         ':father_name' => $father_name,
         ':mother_name' => $mother_name,
+        ':father_occupation' => $father_occupation,
+        ':mother_occupation' => $mother_occupation,
         ':address' => $address,
         ':gender' => $gender,
         ':status' => $status
