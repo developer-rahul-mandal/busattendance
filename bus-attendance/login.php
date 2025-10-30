@@ -122,6 +122,15 @@ require_once '../config/database.php';
 
             <form action="process_login.php" method="POST">
                 <div class="form-group">
+                    <select class="form-control" name="way" required>
+                        <option value="" disabled selected>দিক নির্বাচন করুন</option>
+                        <option value="to_go">যাওয়ার পথে</option>
+                        <option value="to_come">আসার পথে</option>
+                    </select>
+
+                    <i class="fas fa-up-down input-icon"></i>
+                </div>
+                <div class="form-group">
                     <select class="form-control" name="route" required>
                         <option value="" disabled selected>রুট নির্বাচন করুন</option>
                         <?php

@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // ফর্ম ডেটা সংগ্রহ করুন
 $route_id = (int)trim($_POST['route'] ?? '');
 $bus_id = (int)trim($_POST['bus'] ?? '');
-
+$way = trim($_POST['way'] ?? '');
 // ভ্যালিডেশন
 $errors = [];
 
@@ -21,6 +21,10 @@ if (empty($route_id) || $route_id <= 0) {
 
 if (empty($bus_id) || $bus_id <= 0) {
     $errors[] = "বাস নম্বর প্রয়োজন";
+}
+
+if (empty($way) || !in_array($way, ['to_go', 'to_come'])) {
+    $errors[] = "সঠিক যাত্রার দিক নির্বাচন করুন।";
 }
 
 // যদি কোনো ভ্যালিডেশন এরর থাকে
@@ -49,11 +53,11 @@ try {
         exit();
     }
 
-    $stmt = $pdo->prepare("SELECT * FROM route_attendant WHERE route = :route_id AND bus = :bus_id AND DATE(created_at) = CURDATE() LIMIT 1");
-    $stmt->execute(['route_id' => $route_id, 'bus_id' => $bus_id]);
+    $stmt = $pdo->prepare("SELECT * FROM route_attendant WHERE way = :way AND route = :route_id AND bus = :bus_id AND DATE(created_at) = CURDATE() LIMIT 1");
+    $stmt->execute(['way' => $way,'route_id' => $route_id, 'bus_id' => $bus_id]);
     $attendance = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$attendance) {
-        $_SESSION['login_error'] = "আজ এই রুট এবং বাস নম্বরের এর কোনো সংযোগ পাওয়া যায়নি।";
+        $_SESSION['login_error'] = "আজ এরকম কোনো সংযোগ পাওয়া যায়নি।";
         header('Location: login.php');
         exit();
     } else {

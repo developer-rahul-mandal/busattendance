@@ -229,7 +229,7 @@ try {
         </div>
 
         <!-- দ্রুত কার্যক্রম -->
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-12">
                 <div class="quick-actions">
                     <h4 class="mb-4">
@@ -257,6 +257,82 @@ try {
                 </div>
             </div>
         </div>
+
+        <!-- Attendance History -->
+         <div class="row">
+            <div class="col-12">
+                <div class="quick-actions">
+                    <div style="width: 100% !important; position:relative;" class="mb-4">
+                        <h4 class="mb-0 d-inline">
+                            <i class="fas fa-history me-2"></i>
+                            ATTENDANCE HISTORY
+                        </h4>
+                        <small class="ms-auto fs-6" style="position:absolute; right:1rem; font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif">LAST 7 DAY</small>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Direction</th>
+                                    <th scope="col">Bus</th>
+                                    <th scope="col">Attendant</th>
+                                    <th scope="col">Pickup Time</th>
+                                    <th scope="col">Drop Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                try {
+                                    $stmt = $pdo->prepare("
+                                    SELECT 
+                                        DATE(pad.created_at) AS date,
+                                        TIME(pad.pickup_time) AS pickup_time,
+                                        TIME(pad.drop_time) AS drop_time,
+
+                                        ra.way,
+
+                                        att.attendant_name AS attendant_name,
+                                        att.phone AS attendant_phone,
+
+                                        b.bus_number AS bus_number,
+
+                                        d.driver_name AS driver_name
+
+                                    FROM pickup_and_drop AS pad
+                                    JOIN students AS s ON pad.student_id = s.id
+                                    JOIN route_attendant AS ra ON pad.route_attendant_id = ra.id
+                                    LEFT JOIN attendants AS att ON ra.attendant = att.id
+                                    LEFT JOIN buses AS b ON ra.bus = b.id
+                                    LEFT JOIN drivers AS d ON ra.driver = d.id
+
+                                    WHERE pad.student_id = :student_id
+                                    AND DATE(pad.created_at) >= CURDATE() - INTERVAL 7 DAY
+
+                                    ORDER BY pad.created_at DESC;
+                                    ");
+                                    $stmt->execute(['student_id' => $student['id']]);
+                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                        echo '<tr>';
+                                        echo '<td>' . htmlspecialchars($row['date']) . '</td>';
+                                        echo '<td>' . htmlspecialchars($row['way'] == 'to_go' ? 'TO GO' : 'COME BACK') . '</td>';
+                                        echo '<td>' . htmlspecialchars($row['bus_number']) . '<br><small>Drv.:'. htmlspecialchars($row['driver_name']).'</small></td>';
+                                        echo '<td>' . htmlspecialchars($row['attendant_name']) . '<br><small>Mob.:'.htmlspecialchars($row['attendant_phone']).'</small></td>';
+                                        echo '<td>' . htmlspecialchars($row['pickup_time']) . '</td>';
+                                        echo '<td>' . ($row['drop_time'] ? htmlspecialchars($row['drop_time']) : '<span class="text-danger">Not Dropped Yet</span>') . '</td>';
+                                        echo '</tr>';
+                                    }
+                                } catch (PDOException $e) {
+                                    echo '<tr><td colspan="4" class="text-center">Error fetching attendance history.</td></tr>';
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

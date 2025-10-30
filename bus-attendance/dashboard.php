@@ -252,11 +252,11 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
                         দ্রুত কার্যক্রম
                     </h4>
                     <div class="text-center">
-                        <a href="add_student.php" class="action-btn">
+                        <a href="pickup_student.php" class="action-btn">
                             <i class="fa-solid fa-right-long me-2"></i>
                             শিক্ষার্থী বাসে তুলুন
                         </a>
-                        <a href="add_bus.php" class="action-btn">
+                        <a href="drop_student.php" class="action-btn">
                             <i class="fa-solid fa-left-long me-2"></i>
                             শিক্ষার্থী বাসথেকে নামান
                         </a>

@@ -225,6 +225,44 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
             color: #667eea;
             margin-bottom: 10px;
         }
+
+        /* #html5-qrcode-button-camera-permission {
+            background: #f39c12;
+            color: white;
+            border-radius: 8px;
+            padding: 10px 15px;
+            border: none;
+            font-size: 1rem;
+            margin-top: 15px;
+        }
+
+        #html5-qrcode-button-camera-start {
+            background: #667eea;
+            color: white;
+            border-radius: 8px;
+            padding: 10px 15px;
+            border: none;
+            font-size: 1rem;
+            margin-top: 15px;
+        }
+
+        #html5-qrcode-button-camera-stop {
+            background: #e74c3c;
+            color: white;
+            border-radius: 8px;
+            padding: 10px 15px;
+            border: none;
+            font-size: 1rem;
+            margin-top: 15px;
+        }
+
+        #html5-qrcode-anchor-scan-type-change {
+            display: none !important;
+        }
+
+        img[alt="Info icon"] {
+            display: none !important;
+        } */
     </style>
 </head>
 
@@ -275,7 +313,7 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
                 // output.innerHTML = `<div class="alert alert-success">✅ স্ক্যান সফল: ${qrData}</div>`;
                 // stop camera after successful scan
                 // Send scanned data to server
-                fetch('process_pickup.php', {
+                fetch('process_drop.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
@@ -287,13 +325,13 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
                     .then(response => response.json())
                     .then(data => {
                         if (data.status === 'success') {
-                            output.innerHTML = `<div class="alert alert-success">${data.message}</div>`;
+                            output.innerHTML += `<div class="alert alert-success">${data.message}</div>`;
                         } else {
-                            output.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+                            output.innerHTML += `<div class="alert alert-danger">${data.message}</div>`;
                         }
                     })
                     .catch(error => {
-                        output.innerHTML = `<div class="alert alert-danger">⛔ সার্ভার ত্রুটি: ${error.message}</div>`;
+                        output.innerHTML += `<div class="alert alert-danger">⛔ সার্ভার ত্রুটি: ${error.message}</div>`;
                     });
                 isScanning = false;
                 codeReader.reset();
