@@ -253,7 +253,7 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
         <div id="scanner-container" class="text-center mt-3">
             <video id="preview" style="width:90%; max-width:400px; aspect-ratio: 1 / 1; object-fit:cover; border:2px solid #667eea; border-radius:10px;"></video>
             <div id="result" class="mt-3"></div>
-            <!-- <button id="stopBtn" class="btn btn-danger mt-2">স্ক্যান বন্ধ করুন</button> -->
+            <button id="scanAnotherBtn" class="btn btn-danger mt-2">পুনরায় স্ক্যান করুন</button>
         </div>
     </div>
     <script type="module">
@@ -263,7 +263,7 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
 
         const video = document.getElementById('preview');
         const output = document.getElementById('result');
-        //   const stopBtn = document.getElementById('stopBtn');
+          const stopBtn = document.getElementById('scanAnotherBtn');
 
         const codeReader = new BrowserQRCodeReader();
         let isScanning = true;
@@ -296,7 +296,10 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
                         output.innerHTML = `<div class="alert alert-danger">⛔ সার্ভার ত্রুটি: ${error.message}</div>`;
                     });
                 isScanning = false;
-                codeReader.reset();
+                codeReader.reset()
+                .then(() => {
+                    isScanning = true;
+                });
             }
         });
 

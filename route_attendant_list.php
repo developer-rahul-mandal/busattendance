@@ -37,6 +37,8 @@ try {
         LEFT JOIN buses b ON ra.bus = b.id
         LEFT JOIN routes r ON ra.route = r.id
         LEFT JOIN drivers d ON ra.driver = d.id
+        WHERE DATE(ra.created_at) = CURDATE()
+        ORDER BY ra.created_at DESC
     ";
 
     $stmt = $pdo->query($sql);

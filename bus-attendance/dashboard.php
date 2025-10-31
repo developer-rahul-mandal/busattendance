@@ -45,6 +45,7 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
 
 <!DOCTYPE html>
 <html lang="bn">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,51 +57,60 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
             background-color: #f8f9fa;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .navbar {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
         }
+
         .dashboard-header {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             margin-bottom: 30px;
             padding: 30px;
         }
+
         .stats-card {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             padding: 25px;
             margin-bottom: 25px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border-left: 5px solid #667eea;
         }
+
         .stats-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
+
         .stats-icon {
             font-size: 2.5rem;
             color: #667eea;
             margin-bottom: 15px;
         }
+
         .stats-number {
             font-size: 2rem;
             font-weight: 700;
             color: #333;
             margin-bottom: 5px;
         }
+
         .stats-label {
             color: #666;
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+
         .welcome-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -108,25 +118,29 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
             padding: 30px;
             margin-bottom: 30px;
         }
+
         .btn-logout {
-            background: rgba(255,255,255,0.2);
-            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             color: white;
             padding: 8px 20px;
             border-radius: 25px;
             transition: all 0.3s ease;
         }
+
         .btn-logout:hover {
-            background: rgba(255,255,255,0.3);
-            border-color: rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
             color: white;
         }
+
         .quick-actions {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             padding: 25px;
         }
+
         .action-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
@@ -138,26 +152,29 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
             text-decoration: none;
             display: inline-block;
         }
+
         .action-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
             color: white;
         }
-        
+
         /* মাস্টার মেনু স্টাইল */
         .master-menu {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             padding: 25px;
             margin-bottom: 30px;
         }
+
         .master-menu h4 {
             color: #333;
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 3px solid #667eea;
         }
+
         .master-item {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             border-radius: 10px;
@@ -166,20 +183,24 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
             border-left: 5px solid #667eea;
             transition: all 0.3s ease;
         }
+
         .master-item:hover {
             transform: translateX(5px);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
+
         .master-item h6 {
             color: #333;
             margin-bottom: 10px;
             font-weight: 600;
         }
+
         .master-item p {
             color: #666;
             margin-bottom: 15px;
             font-size: 0.9rem;
         }
+
         .master-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
@@ -191,11 +212,13 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
             transition: all 0.3s ease;
             display: inline-block;
         }
+
         .master-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 3px 8px rgba(102, 126, 234, 0.3);
             color: white;
         }
+
         .master-icon {
             font-size: 2rem;
             color: #667eea;
@@ -203,6 +226,7 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
         }
     </style>
 </head>
+
 <body>
     <!-- নেভিগেশন বার -->
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -233,7 +257,7 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
                         বাস অ্যাডমিন ড্যাশবোর্ড
                     </h2>
                     <p class="mb-0">
-                        বাস উপস্থিতি ব্যবস্থাপনা সিস্টেমে স্বাগতম। 
+                        বাস উপস্থিতি ব্যবস্থাপনা সিস্টেমে স্বাগতম।
                         এখান থেকে আপনি সমস্ত কার্যক্রম পরিচালনা করতে পারবেন।
                     </p>
                 </div>
@@ -273,109 +297,133 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
             </div>
         </div>
 
-        <!-- পরিসংখ্যান কার্ড -->
+
+
         <div class="row">
-            <div class="col-md-6">
-                <div class="stats-card text-center">
-                    <i class="fas fa-bus stats-icon"></i>
-                    <div class="stats-number"><?= htmlspecialchars($attendance_info['bus_number'])?></div>
-                    <div class="stats-label">বাস</div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="stats-card text-center">
-                    <i class="fas fa-route stats-icon"></i>
-                    <div class="stats-number"><?= htmlspecialchars($attendance_info['route_name']); ?> </div>
-                    <div class="stats-label">বাস রুট</div>
-                </div>
-            </div>
-        </div>
-        <div class="row justify-content-between">
-            <div class="col-md-6">
-                <div class="stats-card text-center">
-                    <i class="fas fa-users stats-icon"></i>
-                    <div class="stats-number"><?= htmlspecialchars($attendance_info['bus_capacity']); ?></div>
-                    <div class="stats-label">ধারণক্ষমতা</div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="stats-card text-center">
-                    <i class="fas fa-calendar-check stats-icon"></i>
-                    <div class="stats-number">0</div>
-                    <div class="stats-label">আজকের উপস্থিতি</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- মাস্টার মেনু -->
-        <!-- <div class="row">
-            <div class="col-12">
-                <div class="master-menu">
-                    <h4>
-                        <i class="fas fa-cogs me-2"></i>
-                        বাস ম্যানেজমেন্ট
-                    </h4>
-                    <div class="row justify-content-center">
-                        <div class="col-md-6">
-                            <div class="master-item">
-                                <i class="fas fa-bus master-icon"></i>
-                                <h6>বাস ব্যবস্থাপনা</h6>
-                                <p>নতুন বাস যোগ করুন, বাসের তথ্য সম্পাদনা করুন এবং বাসের তালিকা দেখুন।</p>
-                                <a href="add_bus.php" class="master-btn">
-                                    <i class="fas fa-plus me-1"></i>
-                                    বাস যোগ করুন
-                                </a>
-                                <a href="bus_list.php" class="master-btn" style="margin-left: 10px;">
-                                    <i class="fas fa-list me-1"></i>
-                                    বাস তালিকা
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="master-item">
-                                <i class="fas fa-user-tie master-icon"></i>
-                                <h6>ড্রাইভার ব্যবস্থাপনা</h6>
-                                <p>নতুন ড্রাইভার যোগ করুন, ড্রাইভারের তথ্য সম্পাদনা করুন এবং ড্রাইভার তালিকা দেখুন।</p>
-                                <a href="add_driver.php" class="master-btn">
-                                    <i class="fas fa-plus me-1"></i>
-                                    ড্রাইভার যোগ করুন
-                                </a>
-                                <a href="driver_list.php" class="master-btn" style="margin-left: 10px;">
-                                    <i class="fas fa-list me-1"></i>
-                                    ড্রাইভার তালিকা
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
-        
-
-        <!-- সিস্টেম তথ্য -->
-        <div class="row mt-4">
-            <div class="col-12">
+            <div class="col-md-12">
                 <div class="dashboard-header">
-                    <h5 class="mb-3">
-                        <i class="fas fa-info-circle me-2"></i>
-                        সিস্টেম তথ্য
+                    <h5 class="mb-0">
+                        <i class="fas fa-user-check me-2"></i>
+                        আজকের উপস্থিতি সারাংশ
                     </h5>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p><strong>লগইন সময়:</strong> <?php echo date('d-m-Y H:i:s', $_SESSION['login_time']); ?></p>
-                            <p><strong>ব্যবহারকারী:</strong> <?php echo htmlspecialchars($attendance_info['attendant_id_number']); ?></p>
+                    <div>
+
+                        <?php
+                        $sql = "SELECT 
+                                        DATE(pad.created_at) AS date,
+                                        TIME(pad.pickup_time) AS pickup_time,
+                                        TIME(pad.drop_time) AS drop_time,
+
+                                        s.student_name AS student_name,
+                                        s.student_id AS student_id
+
+                                    FROM pickup_and_drop AS pad
+                                    JOIN students AS s ON pad.student_id = s.id
+                                    JOIN route_attendant AS ra ON pad.route_attendant_id = ra.id
+                                    LEFT JOIN attendants AS att ON ra.attendant = att.id
+                                    LEFT JOIN routes AS r ON ra.route = r.id
+                                    LEFT JOIN buses AS b ON ra.bus = b.id
+                                    LEFT JOIN drivers AS d ON ra.driver = d.id
+
+                                    WHERE pad.route_attendant_id = :route_attendant_id AND DATE(pad.created_at) = CURDATE()
+
+                                    ORDER BY pad.created_at DESC;
+                            ";
+                        $stmt = $pdo->prepare($sql);
+                        $stmt->execute(['route_attendant_id' => $_SESSION['route_attendant_id']]);
+                        $attendance_records = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        ?>
+                        <div class="table-responsive mt-3">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">তারিখ</th>
+                                        <th scope="col">ছাত্র</th>
+                                        <th scope="col">ওঠার সময়</th>
+                                        <th scope="col">নামার সময়</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    if (count($attendance_records) === 0) {
+                                        echo '<tr><td colspan="5" class="text-center">আজকের জন্য কোনো উপস্থিতি রেকর্ড নেই।</td></tr>';
+                                    } else {
+                                        foreach ($attendance_records as $record) {
+                                            echo '<tr>';
+                                            echo '<td>' . htmlspecialchars($record['date']) . '</td>';
+                                            echo '<td>' . htmlspecialchars($record['student_name']) . '<br><small>' . htmlspecialchars($record['student_id']) . '<small></td>';
+                                            echo '<td>' . htmlspecialchars($record['pickup_time']) . '</td>';
+                                            echo '<td>' . ($record['drop_time'] ? htmlspecialchars($record['drop_time']) : '<span class="text-danger">এখনও নামানো হয়নি</span>') . '</td>';
+                                            echo '</tr>';
+                                        }
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="col-md-6">
-                            <p><strong>বাস:</strong> <?php echo htmlspecialchars($attendance_info['bus_number']); if(empty($attendance_info['bus_name'])) echo '(' . $attendance_info['bus_name'] . ')'  ?></p>
-                            <p><strong>সেশনের সময়:</strong> ২৪ ঘন্টা</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- পরিসংখ্যান কার্ড -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="stats-card text-center">
+                        <i class="fas fa-bus stats-icon"></i>
+                        <div class="stats-number"><?= htmlspecialchars($attendance_info['bus_number']) ?></div>
+                        <div class="stats-label">বাস</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="stats-card text-center">
+                        <i class="fas fa-route stats-icon"></i>
+                        <div class="stats-number"><?= htmlspecialchars($attendance_info['route_name']); ?> </div>
+                        <div class="stats-label">বাস রুট</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-between">
+                <div class="col-md-6">
+                    <div class="stats-card text-center">
+                        <i class="fas fa-users stats-icon"></i>
+                        <div class="stats-number"><?= htmlspecialchars($attendance_info['bus_capacity']); ?></div>
+                        <div class="stats-label">ধারণক্ষমতা</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="stats-card text-center">
+                        <i class="fas fa-calendar-check stats-icon"></i>
+                        <div class="stats-number">0</div>
+                        <div class="stats-label">আজকের উপস্থিতি</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- সিস্টেম তথ্য -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="dashboard-header">
+                        <h5 class="mb-3">
+                            <i class="fas fa-info-circle me-2"></i>
+                            সিস্টেম তথ্য
+                        </h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>লগইন সময়:</strong> <?php echo date('d-m-Y H:i:s', $_SESSION['login_time']); ?></p>
+                                <p><strong>ব্যবহারকারী:</strong> <?php echo htmlspecialchars($attendance_info['attendant_id_number']); ?></p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>বাস:</strong> <?php echo htmlspecialchars($attendance_info['bus_number']);
+                                                            if (empty($attendance_info['bus_name'])) echo '(' . $attendance_info['bus_name'] . ')'  ?></p>
+                                <p><strong>সেশনের সময়:</strong> ২৪ ঘন্টা</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

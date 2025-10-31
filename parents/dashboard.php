@@ -267,7 +267,7 @@ try {
                             <i class="fas fa-history me-2"></i>
                             ATTENDANCE HISTORY
                         </h4>
-                        <small class="ms-auto fs-6" style="position:absolute; right:1rem; font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif">LAST 7 DAY</small>
+                        <small class="ms-auto fs-6" style="position:absolute; right:1rem; font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif">LAST 7 DAYS</small>
                     </div>
                     
                     <div class="table-responsive">
