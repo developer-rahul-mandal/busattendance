@@ -19,7 +19,7 @@ try {
     $stmt = $pdo->prepare("SELECT * FROM students WHERE `student_id` = :student_id LIMIT 1");
     $stmt->execute(['student_id' => $_SESSION['student_id']]);
     $student = $stmt->fetch(PDO::FETCH_ASSOC);
-} catch (PDOException $e ) {
+} catch (PDOException $e) {
     $_SESSION['login_error'] = "Server error! Please try again.";
     header('Location: login.php');
     exit();
@@ -30,6 +30,7 @@ try {
 
 <!DOCTYPE html>
 <html lang="bn">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,51 +42,60 @@ try {
             background-color: #f8f9fa;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .navbar {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
+
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
         }
+
         .dashboard-header {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             margin-bottom: 30px;
             padding: 30px;
         }
+
         .stats-card {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             padding: 25px;
             margin-bottom: 25px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border-left: 5px solid #667eea;
         }
+
         .stats-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
+
         .stats-icon {
             font-size: 2.5rem;
             color: #667eea;
             margin-bottom: 15px;
         }
+
         .stats-number {
             font-size: 2rem;
             font-weight: 700;
             color: #333;
             margin-bottom: 5px;
         }
+
         .stats-label {
             color: #666;
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+
         .welcome-card {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -93,25 +103,29 @@ try {
             padding: 30px;
             margin-bottom: 30px;
         }
+
         .btn-logout {
-            background: rgba(255,255,255,0.2);
-            border: 2px solid rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             color: white;
             padding: 8px 20px;
             border-radius: 25px;
             transition: all 0.3s ease;
         }
+
         .btn-logout:hover {
-            background: rgba(255,255,255,0.3);
-            border-color: rgba(255,255,255,0.5);
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
             color: white;
         }
+
         .quick-actions {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             padding: 25px;
         }
+
         .action-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
@@ -123,26 +137,29 @@ try {
             text-decoration: none;
             display: inline-block;
         }
+
         .action-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
             color: white;
         }
-        
+
         /* মাস্টার মেনু স্টাইল */
         .master-menu {
             background: white;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             padding: 25px;
             margin-bottom: 30px;
         }
+
         .master-menu h4 {
             color: #333;
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 3px solid #667eea;
         }
+
         .master-item {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             border-radius: 10px;
@@ -151,20 +168,24 @@ try {
             border-left: 5px solid #667eea;
             transition: all 0.3s ease;
         }
+
         .master-item:hover {
             transform: translateX(5px);
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
+
         .master-item h6 {
             color: #333;
             margin-bottom: 10px;
             font-weight: 600;
         }
+
         .master-item p {
             color: #666;
             margin-bottom: 15px;
             font-size: 0.9rem;
         }
+
         .master-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
@@ -176,11 +197,13 @@ try {
             transition: all 0.3s ease;
             display: inline-block;
         }
+
         .master-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 3px 8px rgba(102, 126, 234, 0.3);
             color: white;
         }
+
         .master-icon {
             font-size: 2rem;
             color: #667eea;
@@ -188,13 +211,14 @@ try {
         }
     </style>
 </head>
+
 <body>
     <!-- নেভিগেশন বার -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="#">
                 <i class="fas fa-bus me-2"></i>
-                 Bus Attendance System
+                Bus Attendance System
             </a>
             <div class="navbar-nav ms-auto">
                 <span class="navbar-text me-3">
@@ -209,6 +233,23 @@ try {
     </nav>
 
     <div class="container mt-4">
+
+        <?php if (isset($_SESSION['success_message'])): ?>
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <?php echo $_SESSION['success_message'];
+                unset($_SESSION['success_message']); ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['error_message'])): ?>
+            <div class="alert alert-danger" role="alert">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <?php echo $_SESSION['error_message'];
+                unset($_SESSION['error_message']); ?>
+            </div>
+        <?php endif; ?>
+
         <!-- স্বাগতম কার্ড -->
         <div class="welcome-card">
             <div class="row align-items-center">
@@ -237,7 +278,7 @@ try {
                         FAST ACTIONS
                     </h4>
                     <div class="text-center">
-                        <form id="idCardForm">
+                        <form id="idCardForm" style="display:inline-block;">
                             <input type="hidden" id="student_id" name="student_id" value="<?= $student['student_id']; ?>" required>
                             <input type="hidden" id="name" name="name" value="<?= $student['student_name']; ?>" required>
                             <input type="hidden" id="phone" name="phone" value="+91 <?= $student['phone']; ?>" required placeholder="Enter phone number">
@@ -252,14 +293,20 @@ try {
                                 <i class="fas fa-print me-2"></i> PRINT STUDENT ID CARD
                             </button>
                         </form>
-                        
+
+                        <a href="#invoices">
+                            <button class="action-btn">
+                                <i class="fas fa-file-invoice-dollar me-2"></i> VIEW INVOICES
+                            </button>
+                        </a>
+
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Attendance History -->
-         <div class="row">
+        <div class="row">
             <div class="col-12">
                 <div class="quick-actions">
                     <div style="width: 100% !important; position:relative;" class="mb-4">
@@ -269,7 +316,7 @@ try {
                         </h4>
                         <small class="ms-auto fs-6" style="position:absolute; right:1rem; font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif">LAST 7 DAYS</small>
                     </div>
-                    
+
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
@@ -317,8 +364,8 @@ try {
                                         echo '<tr>';
                                         echo '<td>' . htmlspecialchars($row['date']) . '</td>';
                                         echo '<td>' . htmlspecialchars($row['way'] == 'to_go' ? 'TO GO' : 'COME BACK') . '</td>';
-                                        echo '<td>' . htmlspecialchars($row['bus_number']) . '<br><small>Drv.:'. htmlspecialchars($row['driver_name']).'</small></td>';
-                                        echo '<td>' . htmlspecialchars($row['attendant_name']) . '<br><small>Mob.:'.htmlspecialchars($row['attendant_phone']).'</small></td>';
+                                        echo '<td>' . htmlspecialchars($row['bus_number']) . '<br><small>Drv.:' . htmlspecialchars($row['driver_name']) . '</small></td>';
+                                        echo '<td>' . htmlspecialchars($row['attendant_name']) . '<br><small>Mob.:' . htmlspecialchars($row['attendant_phone']) . '</small></td>';
                                         echo '<td>' . htmlspecialchars($row['pickup_time']) . '</td>';
                                         echo '<td>' . ($row['drop_time'] ? htmlspecialchars($row['drop_time']) : '<span class="text-danger">Not Dropped Yet</span>') . '</td>';
                                         echo '</tr>';
@@ -332,10 +379,57 @@ try {
                     </div>
                 </div>
             </div>
-         </div>
+        </div>
+
+        <!-- invoices -->
+        <div class="row" id="invoices">
+            <div class="col-12">
+                <div class="quick-actions">
+                    <h4 class="mb-4">
+                        <i class="fas fa-file-invoice-dollar me-2"></i>
+                        INVOICES
+                    </h4>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Invoice ID</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Amount (INR)</th>
+                                    <th scope="col">Payment Status</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                try {
+                                    $stmt = $pdo->prepare("SELECT * FROM invoices WHERE student_id = :student_id ORDER BY created_at DESC");
+                                    $stmt->execute(['student_id' => $student['student_id']]);
+                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                        echo '<tr>';
+                                        echo '<td>' . htmlspecialchars($row['id']) . '</td>';
+                                        echo '<td>' . htmlspecialchars($row['invoice_date']) . '</td>';
+                                        echo '<td>' . htmlspecialchars($row['amount']) . '</td>';
+                                        echo '<td>' . htmlspecialchars($row['payment_status'] == 'paid' ? '<span class="text-success">Paid</span>' : '<span class="text-danger">Unpaid</span>') . '</td>';
+                                        echo '<td>' . htmlspecialchars(ucfirst($row['status'])) . '</td>';
+                                        echo '<td><a href="view_invoice.php?id=' . htmlspecialchars($row['id']) . '" class="btn btn-sm btn-primary">View</a></td>';
+                                        echo '</tr>';
+                                    }
+                                } catch (PDOException $e) {
+                                    echo '<tr><td colspan="5" class="text-center">Error fetching invoices.</td></tr>';
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./script.js"></script>
 </body>
+
 </html>

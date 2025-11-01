@@ -253,7 +253,7 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
         <div id="scanner-container" class="text-center mt-3">
             <video id="preview" style="width:90%; max-width:400px; aspect-ratio: 1 / 1; object-fit:cover; border:2px solid #667eea; border-radius:10px;"></video>
             <div id="result" class="mt-3"></div>
-            <button id="scanAnotherBtn" class="btn btn-danger mt-2">পুনরায় স্ক্যান করুন</button>
+            <button class="btn btn-danger mt-2" onclick="window.location.reload()">পুনরায় স্ক্যান করুন</button>
         </div>
     </div>
     <script type="module">
@@ -296,10 +296,7 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
                         output.innerHTML = `<div class="alert alert-danger">⛔ সার্ভার ত্রুটি: ${error.message}</div>`;
                     });
                 isScanning = false;
-                codeReader.reset()
-                .then(() => {
-                    isScanning = true;
-                });
+                codeReader.reset();
             }
         });
 
