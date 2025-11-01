@@ -186,8 +186,21 @@ if ($invoice['payment_status'] === 'unpaid') {
 
     <div class="container mt-5">
         <h2 class="mb-4">Invoice Details</h2>
+         <?php if (isset($_SESSION['success_message'])): ?>
+            <div class="alert alert-success" role="alert">
+                <i class="fas fa-check-circle me-2"></i>
+                <?php echo $_SESSION['success_message'];
+                unset($_SESSION['success_message']); ?>
+            </div>
+        <?php endif; ?>
 
-
+        <?php if (isset($_SESSION['error_message'])): ?>
+            <div class="alert alert-danger" role="alert">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <?php echo $_SESSION['error_message'];
+                unset($_SESSION['error_message']); ?>
+            </div>
+        <?php endif; ?>
         <table class="table table-bordered">
             <tr>
                 <th>Invoice ID</th>

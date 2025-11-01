@@ -370,6 +370,21 @@ if (isset($_SESSION['login_time']) && (time() - $_SESSION['login_time']) > 86400
                                 </a>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="master-item">
+                                <i class="fa-solid fa-font-awesome master-icon"></i>
+                                <h6>চালান বরাদ্দ করুন</h6>
+                                <p>নতুন চালানটি যোগ করুন, চালানের তথ্য সম্পাদনা করুন এবং চালানের তালিকা দেখুন।</p>
+                                <a href="generate_invoice.php" class="master-btn">
+                                    <i class="fas fa-plus me-1"></i>
+                                    চালান যোগ করুন
+                                </a>
+                                <a href="invoice_list.php" class="master-btn" style="margin-left: 10px;">
+                                    <i class="fas fa-list me-1"></i>
+                                    চালানের তালিকা
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

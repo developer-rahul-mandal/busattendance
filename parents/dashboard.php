@@ -295,7 +295,7 @@ try {
                         </form>
 
                         <a href="#invoices">
-                            <button class="action-btn">
+                            <button class="action-btn" style="background: #ff3705ff; color: #fff;">
                                 <i class="fas fa-file-invoice-dollar me-2"></i> VIEW INVOICES
                             </button>
                         </a>
@@ -408,7 +408,7 @@ try {
                                     $stmt->execute(['student_id' => $student['student_id']]);
                                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                         echo '<tr>';
-                                        echo '<td>' . htmlspecialchars($row['id']) . '</td>';
+                                        echo '<td># ' . htmlspecialchars($row['id']) . '</td>';
                                         echo '<td>' . htmlspecialchars($row['invoice_date']) . '</td>';
                                         echo '<td>' . htmlspecialchars($row['amount']) . '</td>';
                                         echo '<td>' . ($row['payment_status'] == 'paid' ? '<span class="text-success">Paid</span>' : '<span class="text-danger">Unpaid</span>') . '</td>';
