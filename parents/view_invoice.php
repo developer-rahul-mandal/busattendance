@@ -17,7 +17,6 @@ if (isset($_SESSION['login_time']) && (time() - $_SESSION['login_time']) > 86400
 // চালান আইডি গ্রহণ করুন
 
 $invoice_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-$alert = '';
 
 try {
     // চালান তথ্য সংগ্রহ করুন
@@ -26,8 +25,8 @@ try {
     $invoice = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$invoice) {
-        header('Location: dashboard.php');
         $_SESSION['error_message'] = "Invoice not found.";
+        header('Location: dashboard.php');
         exit();
     }
 
@@ -78,13 +77,7 @@ try {
 }
 
 // If invoice already paid
-if ($invoice['payment_status'] === 'paid') {
-	$_SESSION['error_message'] = "This invoice is already paid.";
-    header('Location: dashboard.php');
-	exit();
-} 
-else 
-{
+if ($invoice['payment_status'] === 'unpaid') {
 
 // Handle POST callback verification from Razorpay
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['razorpay_payment_id'])) {
@@ -93,7 +86,8 @@ else
         $razorpay_signature = $_POST['razorpay_signature'] ?? '';
 
         if (empty($razorpayKey) || empty($razorpaySecret)) {
-            $alert = '<div class="alert alert-danger" role="alert">PAYMENT GATEWAY NOT WORKING, PLEASE CONTACT WITH ADMIN</div>';
+            $_SESSION['error_message'] = 'PAYMENT GATEWAY NOT WORKING, PLEASE CONTACT WITH ADMIN.';
+            header('Location: view_invoice.php?id=' . $invoice_id);
             exit();
         }
 
@@ -125,12 +119,14 @@ else
             $pdo->commit();
 
             // show success
-            $alert = '<div class="alert alert-success" role="alert">Payment successful. Invoice updated to paid.</div>';
+            $_SESSION['success_message'] = 'Payment successful. Invoice updated to paid.';
+            header('Location: view_invoice.php?id=' . $invoice_id);
             // echo "<p><a href=\"view_invoice.php?id={$invoice_id}\">Back to Invoice</a></p>";
             exit();
         } catch (Exception $e) {
             if ($pdo->inTransaction()) $pdo->rollBack();
-            $alert = '<div class="alert alert-danger" role="alert">Payment verification failed.</div>';
+            $_SESSION['error_message'] = 'Payment verification failed. Please try again.';
+            header('Location: view_invoice.php?id=' . $invoice_id);
 
             // echo ": " . $e->getMessage();
             exit();
@@ -139,14 +135,15 @@ else
 
     // Otherwise (GET) create Razorpay order and show checkout
     if (empty($razorpayKey) || empty($razorpaySecret)) {
-       $alert = '<div class="alert alert-danger" role="alert">PAYMENT GATEWAY NOT WORKING, PLEASE CONTACT WITH ADMIN</div>';
+       $_SESSION['error_message'] = 'PAYMENT GATEWAY NOT WORKING, PLEASE CONTACT WITH ADMIN.';
+        header('Location: view_invoice.php?id=' . $invoice_id);
         exit();
     }
 
     try {
         $api = new Api($razorpayKey, $razorpaySecret);
         // amount in paise
-        $amount_paise = (int)$invoice['amount'] * 100 * 0.02;
+        $amount_paise = (int)$invoice['amount'] * 100;
 
         $orderData = [
             'receipt' => 'inv_' . $invoice_id,
@@ -167,7 +164,8 @@ else
         ]);
 
     } catch (Exception $e) {
-        $alert = '<div class="alert alert-danger" role="alert">Error creating Razorpay order!</div>';
+        $_SESSION['error_message'] = 'Error creating Razorpay order!';
+        header('Location: view_invoice.php?id=' . $invoice_id);
         exit();
     }
 }
@@ -187,8 +185,6 @@ else
 <body>
 
     <div class="container mt-5">
-
-        <?= $alert ?? '' ?>
         <h2 class="mb-4">Invoice Details</h2>
 
 
@@ -256,6 +252,13 @@ else
 				document.getElementById('razorpay_signature').value = response.razorpay_signature;
 				document.getElementById('payment-form').submit();
 			},
+            "method": {
+                "netbanking": true,
+                "card": false,
+                "emi": false,
+                "upi": true,
+                "wallet": true
+            },
 			"prefill": {
 				"name": "",
 				"email": ""

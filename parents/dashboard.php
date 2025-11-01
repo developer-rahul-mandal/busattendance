@@ -306,7 +306,7 @@ try {
         </div>
 
         <!-- Attendance History -->
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-12">
                 <div class="quick-actions">
                     <div style="width: 100% !important; position:relative;" class="mb-4">
@@ -382,7 +382,7 @@ try {
         </div>
 
         <!-- invoices -->
-        <div class="row" id="invoices">
+        <div class="row mb-4" id="invoices">
             <div class="col-12">
                 <div class="quick-actions">
                     <h4 class="mb-4">
@@ -411,7 +411,7 @@ try {
                                         echo '<td>' . htmlspecialchars($row['id']) . '</td>';
                                         echo '<td>' . htmlspecialchars($row['invoice_date']) . '</td>';
                                         echo '<td>' . htmlspecialchars($row['amount']) . '</td>';
-                                        echo '<td>' . htmlspecialchars($row['payment_status'] == 'paid' ? '<span class="text-success">Paid</span>' : '<span class="text-danger">Unpaid</span>') . '</td>';
+                                        echo '<td>' . ($row['payment_status'] == 'paid' ? '<span class="text-success">Paid</span>' : '<span class="text-danger">Unpaid</span>') . '</td>';
                                         echo '<td>' . htmlspecialchars(ucfirst($row['status'])) . '</td>';
                                         echo '<td><a href="view_invoice.php?id=' . htmlspecialchars($row['id']) . '" class="btn btn-sm btn-primary">View</a></td>';
                                         echo '</tr>';
