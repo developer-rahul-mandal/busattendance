@@ -25,6 +25,7 @@ SELECT
     b.bus_name,
     b.bus_type,
     b.capacity AS bus_capacity,
+    r.id as route_id,
     r.route_name,
     r.route_code,
     d.driver_name,
@@ -225,6 +226,94 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
             margin-bottom: 10px;
         }
     </style>
+    <style>
+    /* ---------------------- */
+    /* 1. Global/Container Styling */
+    /* ---------------------- */
+    .bus-stops-list {
+        /* Adds a subtle top margin for separation from surrounding content */
+        margin-top: 20px; 
+        /* Max width helps keep content readable on very wide screens */
+        max-width: 600px; 
+        /* Centers the list if a max-width is set */
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0; /* Remove default padding */
+        list-style: none; /* Ensure no bullet points if you change the tag to <ul> */
+    }
+
+    /* ---------------------- */
+    /* 2. Individual Stop Item Styling (The Card) */
+    /* ---------------------- */
+    .bus-stop-item {
+        display: flex; /* Use Flexbox for easy alignment */
+        align-items: center; /* Vertically centers content */
+        justify-content: space-between; /* Pushes label/name to opposite ends if needed */
+        
+        /* Spacing and visual depth */
+        padding: 15px 20px;
+        margin-bottom: 12px;
+        
+        /* Card appearance */
+        background-color: #ffffff; /* White background */
+        border-radius: 8px; /* Rounded corners */
+        border: 1px solid #e0e0e0; /* Light border for definition */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle lift effect */
+        
+        /* Transition for hover effect */
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    /* Interactive hover effect */
+    .bus-stop-item:hover {
+        transform: translateY(-2px); /* Lifts the card slightly */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Darker shadow on hover */
+    }
+
+    /* ---------------------- */
+    /* 3. Text/Content Styling */
+    /* ---------------------- */
+    .stop-label {
+        /* Style for the "Bus Stop:" text */
+        font-weight: 500;
+        margin-right: 15px;
+        text-transform: uppercase;
+        font-size: 0.8em;
+        letter-spacing: 0.5px;
+        /* Optional: Add a simple bus icon */
+        /* content: '🚌 '; */
+    }
+
+    .stop-name {
+        /* Style for the actual stop name */
+        font-weight: 700; /* Bold and prominent */
+        font-size: 1.1em;
+        /* Ensures the name takes available space */
+        flex-grow: 1; 
+    }
+
+    /* ---------------------- */
+    /* 4. Optional: Responsive adjustment for small screens */
+    /* ---------------------- */
+    @media (max-width: 480px) {
+        .bus-stop-item {
+            /* Stack the label and name on small screens */
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 10px 15px;
+        }
+
+        .stop-label {
+            margin-bottom: 3px; /* Add space between label and name */
+            margin-right: 0;
+            font-size: 0.75em;
+        }
+
+        .stop-name {
+            font-size: 1em;
+        }
+    }
+</style>
 </head>
 
 <body>
@@ -284,14 +373,6 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
                             <i class="fa-solid fa-left-long me-2"></i>
                             শিক্ষার্থী বাসথেকে নামান
                         </a>
-                        <!-- <a href="add_driver.php" class="action-btn">
-                            <i class="fas fa-user-tie me-2"></i>
-                            নতুন ড্রাইভার যোগ করুন
-                        </a>
-                        <a href="attendance_report.php" class="action-btn">
-                            <i class="fas fa-chart-bar me-2"></i>
-                            উপস্থিতি রিপোর্ট
-                        </a> -->
                     </div>
                 </div>
             </div>
@@ -361,6 +442,45 @@ $attendance_info = $stmt->fetch(PDO::FETCH_ASSOC);
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="dashboard-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-route me-2"></i>
+                            রুট উপ-গন্তব্য তথ্য
+                        </h5>
+                        <?php
+                        // এখানে রুটের উপ-গন্তব্য তথ্য প্রদর্শন করুন
+                        if ($attendance_info['way'] == "to_go") {
+                            $stmt = "SELECT * FROM route_sub_destinations WHERE route_id = :route_id";
+                            
+                        } else {
+                            $stmt = "SELECT * FROM route_sub_destinations WHERE route_id = :route_id ORDER BY route_sub_destinations.id DESC";
+
+                        }
+                        $stmt = $pdo->prepare($stmt);
+                        $stmt->execute([':route_id' => $attendance_info['route_id']]);
+
+                        echo '<div class="row">'; // Optional: Container for all routes
+                        $counter = 0;
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            // 1. Assuming your column for the route name is 'route_name'
+                            $stopName = htmlspecialchars($row['destination_name']);
+
+                            echo'
+                            <div class="col-md-4 btn m-3 btn-primary">
+                                <span class="stop-label"><i class="fas fa-bus"></i> '. ++$counter . ' :</span> 
+                                <span class="stop-name">'.$stopName.'</span>
+                            </div>';
+                        
+                        }
+
+                        echo '</div>'; 
+                        ?>
                     </div>
                 </div>
             </div>

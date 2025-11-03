@@ -99,11 +99,11 @@ try {
     ]);
     
     if ($result) {
-        $_SESSION['success_message'] = "বাস সফলভাবে যোগ করা হয়েছে!";
+        $_SESSION['success_message'] = "রুট পরিচারিকা সফলভাবে যোগ করা হয়েছে!";
         header('Location: add_route_attendant.php');
         exit();
     } else {
-        $_SESSION['error_message'] = "বাস যোগ করতে সমস্যা হয়েছে";
+        $_SESSION['error_message'] = "রুট পরিচারিকা যোগ করতে সমস্যা হয়েছে";
         header('Location: add_route_attendant.php');
         exit();
     }
