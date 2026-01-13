@@ -51,12 +51,8 @@ require_once __DIR__ . '/../razorpay/Razorpay.php';
 use Razorpay\Api\Api;
 
 // রেজরপে কী (environment preferred)
-// $razorpayKey = getenv('RAZORPAY_API_KEY') ?: '';
-// $razorpaySecret = getenv('RAZORPAY_API_SECRET') ?: '';
-
-// Fallback: allow placing keys here if env not set (NOT recommended).
-$razorpayKey = 'rzp_live_RXEio6ujogXoZY';
-$razorpaySecret = 'Gnx4jOP0LGDdRWn2yUaGo6dc';
+$razorpayKey = getenv('RAZORPAY_API_KEY') ?: '';
+$razorpaySecret = getenv('RAZORPAY_API_SECRET') ?: '';
 
 // create payments table if not exists
 try {
